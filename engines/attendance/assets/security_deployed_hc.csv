@@ -1,0 +1,56 @@
+﻿Site Name,Agency name,Cost Centre Sub Unit,State,Zone,Total Security Deployed
+Surat DC,BIS,DC,Gujarat,West,31
+Ahmedabad DC,GDX,DC,Gujarat,West,15
+Bhopal XD,GDX,XD,Madhya Pradesh,West,4
+Indore XD,L&L,XD,Madhya Pradesh,West,4
+Jabalpur XD,L&L,XD,Madhya Pradesh,West,6
+Mumbai DC,GDX,DC,Maharashtra,West,36
+Nagpur DC,GDX,DC,Maharashtra,West,16
+Aurangabad XD,Peregrine,XD,Maharashtra,West,4
+Akola XD,GDX,XD,Maharashtra,West,2
+Pune XD,Peregrine,XD,Maharashtra,West,12
+Jaipur DC,L&L,DC,Rajasthan,West,21
+Udaipur XD,GDX,XD,Rajasthan,West,2
+Jodhpur XD,GDX,XD,Rajasthan,West,2
+Pune XD,GDX,DC,Maharashtra,West,1
+Patna DC,Peregrine,XD,Bihar,North,26
+Purnia XD,GDX,XD,Bihar,North,3
+NCR Bamnoli DC,L&L,DC,Delhi,North,42
+NCR Bilaspur DC,L&L,DC,Haryana,North,53
+NCR Tauru DC,L&L,DC,Haryana,North,35
+Jammu XD,BIS,XD,J&K,North,2
+Ludhiana DC,Peregrine,XD,Punjab,North,16
+Chandigarh XD,Peregrine,XD,Punjab,North,5
+Lucknow DC,L&L,DC,Uttar Pradesh,North,38
+Gorakhpur DC,L&L,XD,Uttar Pradesh,North,2
+varanasi XD,L&L,XD,Uttar Pradesh,North,4
+Kanpur XD,L&L,XD,Uttar Pradesh,North,3
+Moradabad XD,L&L,XD,Uttar Pradesh,North,2
+Vijayawada XD,Peregrine,XD,Andhra Pradesh,East,4
+Visakhapatanam XD,Peregrine,XD,Andhra Pradesh,East,4
+Rajahmundry XD,Peregrine,XD,Andhra Pradesh,East,2
+Guwahati DC,L&L,XD,Assam,East,7
+Dibrugarh XDC,BIS,XD,Assam,East,1
+SILCHAR XD,L&L,XD,Assam,East,2
+Raipur XD,Peregrine,XD,Chhattisgarh,East,4
+Ranchi XD,Peregrine,XD,Jharkhand,East,3
+BHUBANESWAR XD,Peregrine,XD,Odisha,East,5
+Shambalpur,BIS,XD,Odisha,East,2
+Hyderabad DC,Peregrine,DC,Telangana,East,20
+Kolkata DC,L&L,DC,West Bangal,East,50
+Malda XD,L&L,XD,West Bangal,East,2
+Siliguri XD,BIS,XD,West Bangal,East,2
+Bangalore DC,Peregrine,DC,Karnataka,South,77
+Hubli XD,Peregrine,XD,Karnataka,South,2
+Mysore XD,Peregrine,XD,Karnataka,South,1
+Kochi XD,Peregrine,XD,Kerala,South,4
+Kozhikode XD,Peregrine,XD,Kerala,South,2
+Chennai DC,GDX,XD,Tamilnadu,South,15
+Coimbatore XD,GDX,XD,Tamilnadu,South,4
+Madurai XD,GDX,XD,Tamilnadu,South,3
+Trichy XD,GDX,XD,Tamilnadu,South,4
+Kolkata XD,L&L,XD,West Bangal,East,10
+Bilaspur POPUP,L&L,DC,Haryana,North,7
+Hyderabad REV DC,Peregrine,DC,Telangana,East,10
+Ahmedabad POPUP,GDX,DC,Gujarat,West,2
+ONE NCR DC,L&L,DC,Haryana,North,61
