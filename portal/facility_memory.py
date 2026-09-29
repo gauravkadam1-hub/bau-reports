@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+import base64
 import json
 import os
 import re
 from pathlib import Path
 from typing import Iterable
 
+import requests
+
 STATE_VERSION = 1
+_REMOTE_LAST_ERROR = ""
+_REMOTE_LAST_OK = False
 
 
 def _state_dir() -> Path:
@@ -39,19 +44,186 @@ def _read_json(path: Path) -> dict | None:
     return None
 
 
-def _load_store() -> dict:
-    data = _read_json(settings_path()) or _empty_store()
+def _normalize_store(data: dict | None) -> dict:
+    data = data if isinstance(data, dict) else _empty_store()
     if not isinstance(data.get("reports"), dict):
         data["reports"] = {}
     data["version"] = STATE_VERSION
     return data
 
 
-def _save_store(data: dict) -> None:
+def _remote_config() -> dict | None:
+    """Return GitHub state-repo settings from Streamlit secrets or environment variables.
+
+    Streamlit Cloud should use secrets. Environment variables are also supported so the
+    exact same backend can be tested locally without committing credentials.
+    """
+    repo = os.environ.get("REPORTING_HUB_STATE_REPO", "").strip()
+    token = os.environ.get("REPORTING_HUB_STATE_TOKEN", "").strip()
+    branch = os.environ.get("REPORTING_HUB_STATE_BRANCH", "main").strip() or "main"
+    path = os.environ.get("REPORTING_HUB_STATE_FILE", "facility_preferences.json").strip() or "facility_preferences.json"
+
+    if not (repo and token):
+        try:
+            import streamlit as st
+
+            section = st.secrets.get("github_state", {})
+            repo = str(section.get("repo", "")).strip()
+            token = str(section.get("token", "")).strip()
+            branch = str(section.get("branch", "main")).strip() or "main"
+            path = str(section.get("path", "facility_preferences.json")).strip() or "facility_preferences.json"
+        except Exception:
+            return None
+
+    if not (repo and token):
+        return None
+    if "/" not in repo:
+        return None
+
+    return {"repo": repo, "token": token, "branch": branch, "path": path}
+
+
+def _github_headers(token: str) -> dict[str, str]:
+    return {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "ReportingAutomationHub/1.0",
+    }
+
+
+def _remote_url(cfg: dict) -> str:
+    # Repository and path are configured by the app owner, never by report uploads.
+    repo = cfg["repo"].strip("/")
+    path = cfg["path"].lstrip("/")
+    return f"https://api.github.com/repos/{repo}/contents/{path}"
+
+
+def _read_remote() -> tuple[dict | None, str | None, bool]:
+    """Return (store, sha, exists). Raises on auth/network/API failures."""
+    cfg = _remote_config()
+    if not cfg:
+        return None, None, False
+
+    response = requests.get(
+        _remote_url(cfg),
+        headers=_github_headers(cfg["token"]),
+        params={"ref": cfg["branch"]},
+        timeout=15,
+    )
+    if response.status_code == 404:
+        return None, None, False
+    response.raise_for_status()
+    payload = response.json()
+    raw = base64.b64decode(payload.get("content", "")).decode("utf-8")
+    data = json.loads(raw)
+    if not isinstance(data, dict):
+        raise ValueError("GitHub facility state file does not contain a JSON object.")
+    return _normalize_store(data), payload.get("sha"), True
+
+
+def _write_remote(data: dict) -> None:
+    """Write the complete preference store to the private GitHub state repository.
+
+    We refresh the current SHA before every write so normal edits from another browser
+    session do not blindly overwrite an older repository version.
+    """
+    cfg = _remote_config()
+    if not cfg:
+        return
+
+    _, sha, exists = _read_remote()
+    encoded = base64.b64encode(
+        json.dumps(_normalize_store(data), indent=2, ensure_ascii=False).encode("utf-8")
+    ).decode("ascii")
+    payload = {
+        "message": "Update facility preferences",
+        "content": encoded,
+        "branch": cfg["branch"],
+    }
+    if exists and sha:
+        payload["sha"] = sha
+
+    response = requests.put(
+        _remote_url(cfg),
+        headers=_github_headers(cfg["token"]),
+        json=payload,
+        timeout=15,
+    )
+    response.raise_for_status()
+
+
+def _load_store() -> dict:
+    global _REMOTE_LAST_ERROR, _REMOTE_LAST_OK
+
+    local = _normalize_store(_read_json(settings_path()))
+    cfg = _remote_config()
+    if not cfg:
+        _REMOTE_LAST_ERROR = ""
+        _REMOTE_LAST_OK = False
+        return local
+
+    try:
+        remote, _, exists = _read_remote()
+        if exists and remote is not None:
+            _REMOTE_LAST_ERROR = ""
+            _REMOTE_LAST_OK = True
+            # Keep a local cache/fallback too. This is useful during transient GitHub outages.
+            _save_local(remote)
+            return remote
+
+        # State repo is configured but the state file is absent. Seed it from local
+        # state if available; otherwise the normal default-site initialization below
+        # will populate it on the first report preference save.
+        if local.get("reports"):
+            _write_remote(local)
+            _REMOTE_LAST_OK = True
+            _REMOTE_LAST_ERROR = ""
+        return local
+    except Exception as exc:
+        _REMOTE_LAST_OK = False
+        _REMOTE_LAST_ERROR = str(exc)
+        return local
+
+
+def _save_local(data: dict) -> None:
     path = settings_path()
     tmp = path.with_suffix(".tmp")
-    tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    tmp.write_text(json.dumps(_normalize_store(data), indent=2, ensure_ascii=False), encoding="utf-8")
     tmp.replace(path)
+
+
+def _save_store(data: dict) -> None:
+    global _REMOTE_LAST_ERROR, _REMOTE_LAST_OK
+
+    data = _normalize_store(data)
+    # Always maintain the local copy. Locally it is the durable backend; in cloud it is
+    # a useful cache only and the GitHub state repo is authoritative across restarts.
+    _save_local(data)
+
+    if not _remote_config():
+        _REMOTE_LAST_ERROR = ""
+        _REMOTE_LAST_OK = False
+        return
+
+    try:
+        _write_remote(data)
+        _REMOTE_LAST_OK = True
+        _REMOTE_LAST_ERROR = ""
+    except Exception as exc:
+        _REMOTE_LAST_OK = False
+        _REMOTE_LAST_ERROR = str(exc)
+
+
+def memory_backend_status() -> dict[str, object]:
+    cfg = _remote_config()
+    return {
+        "mode": "github" if cfg else "local",
+        "repo": cfg["repo"] if cfg else "",
+        "path": cfg["path"] if cfg else str(settings_path()),
+        "last_remote_ok": _REMOTE_LAST_OK,
+        "last_error": _REMOTE_LAST_ERROR,
+    }
 
 
 def normalize_site(report_key: str, value: object) -> str:

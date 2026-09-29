@@ -14,7 +14,7 @@ Phase-1 architecture for a single internal portal that:
 
 - `roster_all_facilities_*` -> Roster Base
 - `flex*` -> Flex Base
-- `all_user_data_all_*` -> All Users (exactly two expected for Flex/Attendance)
+- `all_user_data_all_*` -> All Users (current portal build expects the existing two-file split for Flex/Attendance)
 - `attendance_report_*` -> Attendance Base
 - `onboarding_funnel_all_*` -> Onboarding Base
 - `All user data base.csv` is explicitly ignored.
@@ -38,7 +38,7 @@ For deployment, keep the Git repository private and deploy the single app from t
 
 ## Facility selection memory
 
-The Streamlit portal keeps separate remembered facility selections for Roster, Flex, Attendance, and Onboarding.
+The portal keeps separate remembered facility selections for Roster, Flex, Attendance, and Onboarding.
 
 - Checked/unchecked site choices survive normal local restarts.
 - Existing desktop settings are imported automatically on first use when their settings files are available on the same Windows user account.
@@ -47,11 +47,34 @@ The Streamlit portal keeps separate remembered facility selections for Roster, F
 - Flex clears `NEW` after a successful Flex generation, matching the desktop app.
 - Attendance records the current discovered site list when generation starts, matching the desktop app.
 - Onboarding shows every current template facility as a checkbox. New source-only facilities start unchecked and labelled `NEW`; selected new facilities become known after a successful generation, while unticked new facilities remain `NEW` for a future run.
-- Onboarding applies the chosen facilities to both Aadhar and Hyperverge DC/XD pairs, preserving shared row order and latest-date RED-descending then Manual-descending sorting.
+- Onboarding applies chosen facilities to both Aadhar and Hyperverge DC/XD pairs, preserving paired ordering and existing sorting logic.
 
-Local portal preferences are stored at:
+### Local backend
+
+Without cloud secrets the portal stores preferences at:
 
 - Windows: `%APPDATA%\\ReportingAutomationHub\\facility_preferences.json`
 - macOS/Linux: `~/.reporting_automation_hub/facility_preferences.json`
 
-For Streamlit Community Cloud, local file storage is not guaranteed to survive a cloud reboot. Before production deployment, configure a durable zero-cost preference backend if cross-reboot persistence is required.
+### Streamlit Cloud persistent backend
+
+For Community Cloud, use a second private GitHub repository only for the tiny preference JSON. No uploaded employee files or generated reports are written to GitHub.
+
+1. Create a private repository, for example `bau-reports-state`.
+2. Put `deployment/state_repo_seed/facility_preferences.json` at the repository root and commit it to `main`.
+3. Create a fine-grained GitHub personal access token scoped only to that state repository, with **Contents: Read and write** permission.
+4. In Streamlit Community Cloud open the app's **Settings -> Secrets** and add:
+
+```toml
+[github_state]
+repo = "YOUR_GITHUB_USERNAME/bau-reports-state"
+token = "YOUR_FINE_GRAINED_TOKEN"
+branch = "main"
+path = "facility_preferences.json"
+```
+
+5. Save the secrets and reboot/redeploy the app if Streamlit asks.
+
+The real token must never be committed to either GitHub repository. The included `deployment/streamlit_secrets.example.toml` contains placeholders only.
+
+With these secrets present, the app uses the private state repository as the durable source of truth and maintains a local cache only as a fallback. If the secrets are absent, local JSON behavior remains unchanged.

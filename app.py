@@ -10,6 +10,7 @@ from portal.file_detector import detect_files, missing_requirements
 from portal.facility_memory import (
     acknowledge_sites,
     load_report_preferences,
+    memory_backend_status,
     set_many_site_states,
     set_site_state,
     site_preference,
@@ -39,6 +40,12 @@ div.stButton > button[kind="primary"] {min-height: 3.15rem; font-size: 1.05rem; 
 )
 
 st.markdown('<div class="hero"><h1>Reporting Automation Hub</h1><p>Upload today\'s base files once. The system detects what can be generated and prepares the relevant controls.</p></div>', unsafe_allow_html=True)
+
+_memory_status = memory_backend_status()
+if _memory_status["mode"] == "github":
+    st.caption("Facility memory: cloud-persistent storage configured ✓")
+else:
+    st.caption("Facility memory: local on this machine")
 
 uploaded = st.file_uploader(
     "Upload base files",

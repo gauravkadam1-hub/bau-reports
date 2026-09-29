@@ -4,3 +4,4 @@ polars>=1.30,<2
 openpyxl>=3.1,<4
 XlsxWriter>=3.2,<4
 xlrd>=2.0,<3
+requests>=2.32,<3
