@@ -1,13 +1,17 @@
-Replace/add these files in the existing bau-reports working folder:
+V7 OPTIONAL FLOATER PATCH FOR AN EXISTING WORKING V6 PROJECT
 
-REPLACE:
-- app.py
-- portal/facility_memory.py
-- requirements.txt
-- README.md
+Required runtime replacements (five files):
+app.py
+portal/models.py
+portal/file_detector.py
+portal/generator.py
+engines/attendance/engine.py
 
-ADD:
-- deployment/state_repo_seed/facility_preferences.json
-- deployment/streamlit_secrets.example.toml
+Optional regression testing additions/updates:
+tests/test_attendance_optional_floater.py
+tests/test_facility_scope.py
+tools/verify_attendance_floater.py
 
-No report engine files are changed by this patch.
+Keep your masters, assets, settings and facility preferences.
+No new runtime dependencies. Fully restart the app and generate NEW reports.
+Read ATTENDANCE_OPTIONAL_FLOATER_V7.md for exact behavior.

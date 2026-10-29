@@ -65,6 +65,9 @@ def generate_one(
     if key == "attendance":
         e = attendance_engine()
         u1, u2 = [str(saved[n]) for n in detected.all_users]
+        if len(detected.floater) > 1:
+            raise ValueError("Upload at most one Floater/Floaters file for Attendance.")
+        floater_path = str(saved[detected.floater[0]]) if detected.floater else None
         inputs = e.ReportInputs(
             users_path_1=u1,
             users_path_2=u2,
@@ -75,6 +78,7 @@ def generate_one(
             selected_dc=request.selected_dc,
             selected_xd=request.selected_xd,
             selected_reports=request.selected_reports,
+            floater_path=floater_path,
         )
         return [Path(p) for p in e.generate_reports(inputs, progress)]
 

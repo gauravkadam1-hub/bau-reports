@@ -1,0 +1,71 @@
+{
+  "untouched_inputs": {
+    "bau-reports-main.zip": {
+      "checked_files": 34,
+      "mismatches": []
+    },
+    "BAU_Onboarding_Styles_Fixed_v2.zip": {
+      "checked_files": 72,
+      "mismatches": []
+    }
+  },
+  "other_runtime_files_unchanged": [
+    "engines/attendance/engine.py",
+    "engines/attendance/__init__.py",
+    "engines/attendance/Deployed HC Master.xlsx",
+    "engines/attendance/REF Master.xlsx",
+    "engines/attendance/assets/security_deployed_hc.csv",
+    "engines/attendance/assets/config.json",
+    "engines/attendance/assets/floater.csv",
+    "engines/attendance/assets/housekeeping_deployed_hc.csv",
+    "engines/flex/engine.py",
+    "engines/flex/__init__.py",
+    "engines/roster/engine.py",
+    "engines/roster/__init__.py",
+    "portal/facility_memory.py",
+    "portal/engine_loader.py",
+    "portal/__init__.py",
+    "portal/file_detector.py",
+    "portal/models.py",
+    "portal/workspace.py",
+    "portal/scanner.py",
+    "portal/generator.py",
+    "app.py"
+  ],
+  "modified_relative_to_v2": [
+    "FILES_TO_REPLACE.txt",
+    "ONBOARDING_MIGRATION.md",
+    "ONBOARDING_STYLES_FIX.md",
+    "README.md",
+    "engines/onboarding/onboarding_layout.json",
+    "engines/onboarding/onboarding_writer.py",
+    "tests/test_onboarding_styles.py",
+    "tests/test_onboarding_writer.py",
+    "verification/README.md"
+  ],
+  "added_relative_to_v2": [
+    "ONBOARDING_COMPACT_V3.md",
+    "engines/onboarding/onboarding_packaging.py",
+    "tests/test_onboarding_compact.py",
+    "tools/inspect_onboarding_size.py",
+    "verification/compact_v3/benchmark_worker.py",
+    "verification/compact_v3/dependency_install.log",
+    "verification/compact_v3/dependency_install_public.log",
+    "verification/compact_v3/recalculation.json",
+    "verification/compact_v3/size/dense_20000_original.json",
+    "verification/compact_v3/size/dense_20000_v2.json",
+    "verification/compact_v3/size/dense_20000_v3-uncompressed.json",
+    "verification/compact_v3/size/dense_20000_v3.json",
+    "verification/compact_v3/size/dense_parity.json",
+    "verification/compact_v3/size/size_inspection.json",
+    "verification/compact_v3/size/sparse_20000_original.json",
+    "verification/compact_v3/size/sparse_20000_v2.json",
+    "verification/compact_v3/size/sparse_20000_v3-uncompressed.json",
+    "verification/compact_v3/size/sparse_20000_v3.json",
+    "verification/compact_v3/size/sparse_parity.json",
+    "verification/compact_v3/strict/environment.json",
+    "verification/compact_v3/strict_run.log",
+    "verification/compact_v3/tests.log",
+    "verification/compact_v3/tests.xml"
+  ]
+}

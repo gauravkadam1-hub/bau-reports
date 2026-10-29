@@ -1,0 +1,5 @@
+Verification BLOCKED. Required real backends are missing:
+  polars: No module named 'polars'
+  fastexcel: No module named 'fastexcel'
+  xlrd: No module named 'xlrd'
+Install requirements.txt and pytest, then rerun this command.

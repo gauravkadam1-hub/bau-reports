@@ -1,0 +1,54 @@
+{
+  "shape": "sparse",
+  "rows": 20000,
+  "checks": [
+    {
+      "against": "original",
+      "new": "v3",
+      "data_only": false,
+      "nonempty_cells_checked": 222125,
+      "by_sheet": {
+        "Aadhar - DC": 851,
+        "Aadhar - XD": 519,
+        "Hyperverge - DC": 430,
+        "Hyperverge - XD": 266,
+        "Manual Onb - HR wise details": 16,
+        "RED Cases - HR wise details": 16,
+        "Onboarding Base": 220027
+      },
+      "differences": []
+    },
+    {
+      "against": "v2",
+      "new": "v3",
+      "data_only": false,
+      "nonempty_cells_checked": 222125,
+      "by_sheet": {
+        "Aadhar - DC": 851,
+        "Aadhar - XD": 519,
+        "Hyperverge - DC": 430,
+        "Hyperverge - XD": 266,
+        "Manual Onb - HR wise details": 16,
+        "RED Cases - HR wise details": 16,
+        "Onboarding Base": 220027
+      },
+      "differences": []
+    },
+    {
+      "against": "v2",
+      "new": "v3",
+      "data_only": true,
+      "nonempty_cells_checked": 222125,
+      "by_sheet": {
+        "Aadhar - DC": 851,
+        "Aadhar - XD": 519,
+        "Hyperverge - DC": 430,
+        "Hyperverge - XD": 266,
+        "Manual Onb - HR wise details": 16,
+        "RED Cases - HR wise details": 16,
+        "Onboarding Base": 220027
+      },
+      "differences": []
+    }
+  ]
+}

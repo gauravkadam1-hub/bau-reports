@@ -1,0 +1,265 @@
+{
+  "results": [
+    {
+      "scenario": "1_dates_both_groups",
+      "report": "Attendance Adherence Report - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 1722,
+      "formula_and_literal_cells_compared": 1722,
+      "style_cells_compared": 1835,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "1_dates_both_groups",
+      "report": "Attendance Adherence Report - Housekeeping - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 530,
+      "formula_and_literal_cells_compared": 530,
+      "style_cells_compared": 583,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml",
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "1_dates_both_groups",
+      "report": "Attendance Adherence Report - Security - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 530,
+      "formula_and_literal_cells_compared": 530,
+      "style_cells_compared": 583,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml",
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "1_dates_both_groups",
+      "report": "Attendance Adherence Report - Maintenance - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 530,
+      "formula_and_literal_cells_compared": 530,
+      "style_cells_compared": 583,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": []
+    },
+    {
+      "scenario": "5_dates_both_groups",
+      "report": "Attendance Adherence Report - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 3382,
+      "formula_and_literal_cells_compared": 3382,
+      "style_cells_compared": 3587,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "5_dates_both_groups",
+      "report": "Attendance Adherence Report - Housekeeping - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 1230,
+      "formula_and_literal_cells_compared": 1230,
+      "style_cells_compared": 1375,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml",
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "5_dates_both_groups",
+      "report": "Attendance Adherence Report - Security - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 1230,
+      "formula_and_literal_cells_compared": 1230,
+      "style_cells_compared": 1375,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml",
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "5_dates_both_groups",
+      "report": "Attendance Adherence Report - Maintenance - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 1230,
+      "formula_and_literal_cells_compared": 1230,
+      "style_cells_compared": 1375,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "23_dates_both_groups",
+      "report": "Attendance Adherence Report - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 10852,
+      "formula_and_literal_cells_compared": 10852,
+      "style_cells_compared": 11471,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "23_dates_both_groups",
+      "report": "Attendance Adherence Report - Housekeeping - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 4380,
+      "formula_and_literal_cells_compared": 4380,
+      "style_cells_compared": 4939,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml",
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "23_dates_both_groups",
+      "report": "Attendance Adherence Report - Security - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 4380,
+      "formula_and_literal_cells_compared": 4380,
+      "style_cells_compared": 4939,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml",
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "23_dates_both_groups",
+      "report": "Attendance Adherence Report - Maintenance - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 4380,
+      "formula_and_literal_cells_compared": 4380,
+      "style_cells_compared": 4939,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": [
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "scenario": "3_dates_dc_only",
+      "report": "Attendance Adherence Report - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 2484,
+      "formula_and_literal_cells_compared": 2484,
+      "style_cells_compared": 2643,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": []
+    },
+    {
+      "scenario": "3_dates_dc_only",
+      "report": "Attendance Adherence Report - Housekeeping - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 812,
+      "formula_and_literal_cells_compared": 812,
+      "style_cells_compared": 911,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 18,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml"
+      ]
+    },
+    {
+      "scenario": "3_dates_dc_only",
+      "report": "Attendance Adherence Report - Security - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 812,
+      "formula_and_literal_cells_compared": 812,
+      "style_cells_compared": 911,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 18,
+      "changed_package_parts": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml",
+        "xl/worksheets/sheet4.xml",
+        "xl/worksheets/sheet5.xml",
+        "xl/worksheets/sheet6.xml",
+        "xl/worksheets/sheet7.xml",
+        "xl/styles.xml"
+      ]
+    },
+    {
+      "scenario": "3_dates_dc_only",
+      "report": "Attendance Adherence Report - Maintenance - 24th Oct.xlsx",
+      "backend": "existing pandas fallback",
+      "cached_cells_compared": 812,
+      "formula_and_literal_cells_compared": 812,
+      "style_cells_compared": 911,
+      "mismatches": [],
+      "expected_empty_group_formula_changes": 0,
+      "changed_package_parts": []
+    }
+  ],
+  "total_cached_cells": 39296,
+  "total_formula_literal_cells": 39296,
+  "total_style_cells": 42960,
+  "mismatches": 0,
+  "note": "Only Housekeeping/Security summary data moves by one row. Empty dedicated groups now use safe =0 total formulas. Main and Maintenance XML parts match except optional core timestamp."
+}

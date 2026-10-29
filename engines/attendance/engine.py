@@ -24,10 +24,12 @@ except Exception:
     pd = None
 
 import xlsxwriter
+from engines.facility_scope import filter_pandas_dcxd, filter_polars_dcxd
 from openpyxl import load_workbook
 from xlsxwriter.utility import xl_col_to_name
 
 SUPPORTED_EXTENSIONS = {".csv", ".xlsx", ".xlsm"}
+FLOATER_EXTENSIONS = {".csv", ".xlsx", ".xlsm", ".xls"}
 ProgressCallback = Callable[[int, str], None]
 
 ASSET_DIR = Path(__file__).resolve().parent / "assets"
@@ -48,6 +50,11 @@ METRIC_HEADERS = [
     "5 to 8 Hrs \nAdherence", "8 Hrs + \nAdherence",
 ]
 METRIC_WIDTHS = [6.55, 7.78, 7.78, 5.78, 7.11, 5.66, 7.55, 9.55, 7.78, 9.11, 7.78]
+
+# Display-only targets, aligned with METRIC_HEADERS. They never enter metrics,
+# Grand Totals or conditional-format ranges. Other reports retain their layout.
+TARGET_REPORT_ROLES = frozenset({"housekeeping", "security"})
+TARGET_ROW_VALUES = ("-", "-", 0.75, "-", "-", "-", "-", 1.0, "-", "-", 0.80)
 
 
 class ReportError(Exception):
@@ -105,6 +112,7 @@ class ReportInputs:
     selected_dc: list[str]
     selected_xd: list[str]
     selected_reports: list[str] | None = None
+    floater_path: str | None = None
 
 
 def _progress(cb: ProgressCallback | None, pct: int, message: str) -> None:
@@ -413,6 +421,9 @@ def load_users(path1: str, path2: str) -> UserData:
         "facility": _find_col(columns, ["Registered Facility", "Facility Name", "facility_name"], "Registered Facility"),
         "onboarded_date": _find_col(columns, ["Onboarded Date", "Onboarding Date"], "Onboarded Date"),
     }
+    frame = (filter_polars_dcxd(frame, required["facility"])
+             if pl is not None and isinstance(frame, pl.DataFrame)
+             else filter_pandas_dcxd(frame, required["facility"]))
     return UserData(frame, columns, required)
 
 
@@ -591,6 +602,9 @@ def load_attendance(path: str) -> AttendanceData:
     for desired, src in identity_map.items():
         out=internal_to_output.get(src)
         if out: output_identity_map[desired]=out
+    frame = (filter_polars_dcxd(frame, output_identity_map["facility_name"])
+             if pl is not None and isinstance(frame, pl.DataFrame)
+             else filter_pandas_dcxd(frame, output_identity_map["facility_name"]))
     return AttendanceData(frame, output_columns, identity_columns, output_identity_map, blocks, dates)
 
 
@@ -722,9 +736,51 @@ def _read_csv_asset(name: str) -> list[list[str]]:
         return [row for row in csv.reader(f)]
 
 
-def _floater_set() -> set[str]:
-    rows=_read_csv_asset("floater.csv")
-    return {_clean_space(r[0]).casefold() for r in rows[1:] if r and _clean_space(r[0])}
+def _read_floater_input(path: str | None) -> tuple[list[list[str]] | None, set[str]]:
+    """Read an optional uploaded Floater/Floaters file.
+
+    The workbook formula intentionally checks column A, so the first source column
+    is also the identifier column for the cached calculation. The entire uploaded
+    file is preserved in the generated Floater worksheet.
+    """
+    if not path:
+        return None, set()
+    source = Path(path)
+    ext = source.suffix.lower()
+    if ext not in FLOATER_EXTENSIONS:
+        raise ReportError(f"Unsupported Floater file type: {ext}. Use CSV or Excel.")
+
+    rows: list[list[str]] = []
+    try:
+        if ext == ".csv":
+            with source.open("r", encoding="utf-8-sig", errors="replace", newline="") as f:
+                rows = [[_cell_text(v) for v in row] for row in csv.reader(f)]
+        elif ext in {".xlsx", ".xlsm"}:
+            wb = load_workbook(source, read_only=True, data_only=True)
+            try:
+                ws = wb.active
+                rows = [[_cell_text(v) for v in row] for row in ws.iter_rows(values_only=True)]
+            finally:
+                wb.close()
+        else:  # legacy .xls
+            try:
+                import xlrd
+            except Exception as exc:
+                raise ReportError("Reading .xls Floater files requires xlrd.") from exc
+            book = xlrd.open_workbook(source)
+            sheet = book.sheet_by_index(0)
+            rows = [[_cell_text(sheet.cell_value(r, c)) for c in range(sheet.ncols)] for r in range(sheet.nrows)]
+    except ReportError:
+        raise
+    except Exception as exc:
+        raise ReportError(f"Could not read Floater file {source.name}: {exc}") from exc
+
+    # Drop only completely empty trailing/blank rows; do not alter source columns.
+    rows = [row for row in rows if any(_clean_space(v) for v in row)]
+    if not rows:
+        raise ReportError(f"Floater file {source.name} is empty.")
+    floater_ids = {_clean_space(row[0]).casefold() for row in rows if row and _clean_space(row[0])}
+    return rows, floater_ids
 
 
 def _deployed_map(spec: ReportSpec) -> tuple[dict[str, float], str]:
@@ -887,16 +943,20 @@ def _role_key(v: object) -> str:
     return normalize_role(v)
 
 
-def _floater_from_user(raw_floater: str, user_id: str, floater_ids: set[str]) -> bool | str:
-    s=_clean_space(raw_floater).casefold()
-    if s=="yes": return True
-    if s=="no": return False
-    if s=="-": return "-"
-    return _clean_space(user_id).casefold() in floater_ids
+def _floater_from_user(raw_floater: str, user_id: str, floater_ids: set[str]) -> bool:
+    """Return the Main Attendance floater flag.
+
+    An uploaded Floater list has first priority: membership means TRUE.  When
+    the ID isn't present (or no list was uploaded), the raw All User `Floater`
+    field is considered and only an explicit `Yes` means TRUE.  `No`, `-`,
+    blank, and every other value are FALSE.
+    """
+    if _clean_space(user_id).casefold() in floater_ids:
+        return True
+    return _clean_space(raw_floater).casefold()=="yes"
 
 
-def _build_caches(users: UserData, att: AttendanceData, report_dates: list[date], specs: list[ReportSpec], progress: ProgressCallback | None=None):
-    floater_ids=_floater_set()
+def _build_caches(users: UserData, att: AttendanceData, report_dates: list[date], specs: list[ReportSpec], floater_ids: set[str], progress: ProgressCallback | None=None):
     role_sets={spec.key:{_role_key(x) for x in spec.roles} for spec in specs}
     spec_by_key={spec.key:spec for spec in specs}
 
@@ -925,8 +985,7 @@ def _build_caches(users: UserData, att: AttendanceData, report_dates: list[date]
             if spec.is_main:
                 fl=_floater_from_user(uflo[i],uid[i],floater_ids)
                 if fl is not False: continue
-            else:
-                if _clean_space(uid[i]).casefold() in floater_ids: continue
+            # Dedicated ground-worker reports intentionally ignore Floater status.
             active_dates[spec.key].setdefault(site,[]).append(d)
     for key in active_dates:
         for site in active_dates[key]: active_dates[key][site].sort()
@@ -942,7 +1001,6 @@ def _build_caches(users: UserData, att: AttendanceData, report_dates: list[date]
         ident=_clean_space(a_uid[i]); ident_n=ident.casefold()
         rawflo=user_raw_floater.get(ident_n,"")
         fl=_floater_from_user(rawflo,ident,floater_ids)
-        if fl is not False: continue
         site=normalize_site(a_fac[i])
         if not site: continue
         role=_role_key(a_role[i])
@@ -952,6 +1010,8 @@ def _build_caches(users: UserData, att: AttendanceData, report_dates: list[date]
             shift=_clean_space(shift_cols[d][i]).upper()
             punch=_clean_space(punch_cols[d][i]).upper()
             for spec in matched:
+                if spec.is_main and fl is not False:
+                    continue
                 arr=metrics[spec.key][d].setdefault(site,[0,0,0,0,0])
                 if shift in {"P1","P2","P3"}: arr[0]+=1
                 if punch=="SP": arr[1]+=1
@@ -1024,17 +1084,22 @@ def _to_number_or_text(value: object):
 def _summary_formula_strings(spec: ReportSpec, row_excel: int, date_cell: str, au_letters: dict[str,str], deployed_value_col: str | None):
     fac=au_letters["facility"]; status=au_letters["status"]; onb=au_letters["onboarded_date"]
     fallback=(f"COUNTIFS('All User data'!${fac}:${fac},$A{row_excel},'All User data'!$A:$A,\"Yes\","
-              f"'All User data'!${status}:${status},\"Onboarded - Active\",'All User data'!$B:$B,FALSE(),"
-              f"'All User data'!${onb}:${onb},\"<=\"&{date_cell})")
+              f"'All User data'!${status}:${status},\"Onboarded - Active\",")
+    if spec.is_main:
+        fallback += "'All User data'!$B:$B,FALSE(),"
+    fallback += f"'All User data'!${onb}:${onb},\"<=\"&{date_cell})"
+
     if spec.is_main:
         active="="+fallback
     else:
         active=(f"=IFNA(INDEX('Deployed HC'!${deployed_value_col}:${deployed_value_col},"
                 f"MATCH($A{row_excel},'Deployed HC'!$A:$A,0)),{fallback})")
 
-    common=("INDEX('Attendance Base'!$1:$1048576,0,MATCH(\"To be considered\",'Attendance Base'!$1:$1,0)),\"Yes\","
-            "INDEX('Attendance Base'!$1:$1048576,0,MATCH(\"To be considered(Values - TRUE/FALSE)\",'Attendance Base'!$1:$1,0)),FALSE(),"
-            f"INDEX('Attendance Base'!$1:$1048576,0,MATCH(\"facility_name\",'Attendance Base'!$1:$1,0)),$A{row_excel}")
+    common=("INDEX('Attendance Base'!$1:$1048576,0,MATCH(\"To be considered\",'Attendance Base'!$1:$1,0)),\"Yes\",")
+    if spec.is_main:
+        common += ("INDEX('Attendance Base'!$1:$1048576,0,MATCH(\"To be considered(Values - TRUE/FALSE)\",'Attendance Base'!$1:$1,0)),FALSE(),")
+    common += f"INDEX('Attendance Base'!$1:$1048576,0,MATCH(\"facility_name\",'Attendance Base'!$1:$1,0)),$A{row_excel}"
+
     total=(f"=COUNTIFS(INDEX('Attendance Base'!$1:$1048576,0,MATCH({date_cell},'Attendance Base'!$1:$1,0)),\"P1\",{common})"
            f"+COUNTIFS(INDEX('Attendance Base'!$1:$1048576,0,MATCH({date_cell},'Attendance Base'!$1:$1,0)),\"P2\",{common})"
            f"+COUNTIFS(INDEX('Attendance Base'!$1:$1048576,0,MATCH({date_cell},'Attendance Base'!$1:$1,0)),\"P3\",{common})")
@@ -1066,13 +1131,16 @@ def _add_formats(wb):
 def _write_summary_sheet(wb, name: str, spec: ReportSpec, sites: list[str], dates: list[date], values, au_letters: dict[str,str], deployed_value_col: str | None):
     ws=wb.add_worksheet(name)
     fmt=_add_formats(wb)
-    ws.freeze_panes(2,1)
+    show_targets = not spec.is_main and normalize_role(spec.display_name) in TARGET_REPORT_ROLES
+    site_start = 3 if show_targets else 2
+    # Keep the Target row visible with the two existing header rows.
+    ws.freeze_panes(site_start,1)
     ws.set_row(0,15); ws.set_row(1,54)
     ws.set_column(0,0,16.33)
     # Write rows in strict order; merged-range metadata is injected after close.
     ws.write(0,0,"Site",fmt["header"])
     headers=[spec.hc_label]+METRIC_HEADERS[1:]
-    site_start=2; total_row=site_start+len(sites)
+    total_row=site_start+len(sites)
 
     date_header_fmt=wb.add_format({"bold":True,"font_name":"Calibri","font_size":11,"bg_color":"#DBE9F7","border":1,"align":"center","valign":"vcenter","num_format":"dd-mm-yyyy"})
     # Constant-memory worksheets must be written in strict row order. Write/merge the complete
@@ -1092,6 +1160,21 @@ def _write_summary_sheet(wb, name: str, spec: ReportSpec, sites: list[str], date
         c=1+di*11
         for j,h in enumerate(headers):
             ws.write(1,c+j,h,fmt["header_metric"])
+
+    if show_targets:
+        target_pct = wb.add_format({"bold":True,"font_name":"Calibri","font_size":10,
+                                    "bg_color":"#DBE9F7","border":1,"align":"center",
+                                    "valign":"vcenter","text_wrap":True,"num_format":"0%"})
+        ws.write_string(2,0,"Target",fmt["header"])
+        # Write every date, including hidden historical blocks, before site data.
+        # Sequential rows are required by XlsxWriter's constant-memory mode.
+        for di in range(len(dates)):
+            c=1+di*len(METRIC_HEADERS)
+            for j,target in enumerate(TARGET_ROW_VALUES):
+                if isinstance(target,str):
+                    ws.write_string(2,c+j,target,fmt["header_metric"])
+                else:
+                    ws.write_number(2,c+j,target,target_pct)
 
     for i,site_name in enumerate(sites):
         r=site_start+i; excel_r=r+1
@@ -1119,10 +1202,12 @@ def _write_summary_sheet(wb, name: str, spec: ReportSpec, sites: list[str], date
         cached=[sum(values[d][s][j] for s in sites) for j in [0,1,3,4,5,6]]
         hc,total,sp,mis,hf,p=cached
         calc=[hc,total,(total/hc if hc else 0),sp,mis,hf,p,((mis+hf+p)/total if total else 0),(mis/total if total else 0),(hf/total if total else 0),(p/total if total else 0)]
-        first=3; last=2+len(sites)
+        first=site_start+1; last=site_start+len(sites)
         for j,idx in [(0,0),(1,1),(3,3),(4,4),(5,5),(6,6)]:
             col=xl_col_to_name(c+j)
-            ws.write_formula(total_row,c+j,f"=SUM({col}{first}:{col}{last})",fmt["total_num"],calc[idx])
+            # With no sites, the total must not sum itself or the Target row.
+            formula = "=0" if show_targets and not sites else f"=SUM({col}{first}:{col}{last})"
+            ws.write_formula(total_row,c+j,formula,fmt["total_num"],calc[idx])
         ws.write_formula(total_row,c+2,f"=IFERROR({xl_col_to_name(c+1)}{total_excel}/{xl_col_to_name(c)}{total_excel},0)",fmt["total_pct"],calc[2])
         ws.write_formula(total_row,c+7,f"=IFERROR(SUM({xl_col_to_name(c+4)}{total_excel}:{xl_col_to_name(c+6)}{total_excel})/{xl_col_to_name(c+1)}{total_excel},0)",fmt["total_pct"],calc[7])
         ws.write_formula(total_row,c+8,f"=IFERROR({xl_col_to_name(c+4)}{total_excel}/{xl_col_to_name(c+1)}{total_excel},0)",fmt["total_pct"],calc[8])
@@ -1130,6 +1215,8 @@ def _write_summary_sheet(wb, name: str, spec: ReportSpec, sites: list[str], date
         ws.write_formula(total_row,c+10,f"=IFERROR({xl_col_to_name(c+6)}{total_excel}/{xl_col_to_name(c+1)}{total_excel},0)",fmt["total_pct"],calc[10])
         # Match the reference report's directional colour scales.
         for offset,reverse in [(2,False),(7,False),(8,True),(9,True),(10,False)]:
+            if show_targets and not sites:
+                continue
             rng=xlsxwriter.utility.xl_range(site_start,c+offset,total_row-1,c+offset)
             colors=("#63BE7B","#FFEB84","#F8696B") if reverse else ("#F8696B","#FFEB84","#63BE7B")
             ws.conditional_format(rng,{"type":"3_color_scale","min_type":"min","mid_type":"percentile","mid_value":50,"max_type":"max","min_color":colors[0],"mid_color":colors[1],"max_color":colors[2]})
@@ -1153,13 +1240,52 @@ def _write_deployed_sheet(wb, rows: list[list[str]]):
     ws.freeze_panes(1,0)
 
 
+def _helper_count(spec: ReportSpec) -> int:
+    # Main Attendance uses role eligibility + Floater helper. Dedicated ground-worker
+    # reports use role eligibility only; Floater must not affect them.
+    return 2 if spec.is_main else 1
+
+
+def _all_user_floater_formula(id_cell: str, has_raw_floater: bool, has_floater_sheet: bool) -> str:
+    list_check = f"COUNTIF(Floater!$A:$A,{id_cell})>0"
+    raw_check = 'INDEX($1:$1048576,ROW(),MATCH("Floater",$1:$1,0))="Yes"'
+    if has_floater_sheet and has_raw_floater:
+        return f"=IF({list_check},TRUE,{raw_check})"
+    if has_floater_sheet:
+        return "=" + list_check
+    if has_raw_floater:
+        return "=" + raw_check
+    return "=FALSE()"
+
+
+def _attendance_floater_formula(user_cell: str, all_id_letter: str, has_raw_floater: bool, has_floater_sheet: bool) -> str:
+    list_check = f"COUNTIF(Floater!$A:$A,{user_cell})>0"
+    if not has_raw_floater:
+        return "=" + list_check if has_floater_sheet else "=FALSE()"
+    lookup=(
+        f"INDEX('All User data'!$1:$1048576,MATCH({user_cell},'All User data'!${all_id_letter}:${all_id_letter},0),"
+        "MATCH(\"Floater\",'All User data'!$1:$1,0))"
+    )
+    raw_check=f'IFERROR({lookup}="Yes",FALSE())'
+    if has_floater_sheet:
+        return f'=IF({list_check},TRUE,{raw_check})'
+    return "=" + raw_check
+
+
 def _write_floater_sheet(wb, rows: list[list[str]]):
     ws=wb.add_worksheet("Floater")
     fmt=_add_formats(wb)
-    for c,h in enumerate(rows[0]): ws.write(0,c,h,fmt["dark_header"])
+    width=max((len(row) for row in rows), default=1)
+    header=rows[0] if rows else []
+    for c in range(width):
+        h=header[c] if c < len(header) else ""
+        ws.write(0,c,h,fmt["dark_header"])
     for r,row in enumerate(rows[1:],1):
         for c,v in enumerate(row): ws.write(r,c,v,fmt["small"])
-    ws.set_column(0,0,18); ws.set_column(1,1,28); ws.set_column(2,2,20)
+    for c in range(width):
+        sample=[_cell_text(row[c]) for row in rows[:250] if c < len(row)]
+        longest=max([len(x) for x in sample] or [10])
+        ws.set_column(c,c,min(36,max(12,longest+2)))
     ws.freeze_panes(1,0)
 
 
@@ -1168,17 +1294,21 @@ def _write_all_users(wb, users: UserData, spec: ReportSpec, floater_ids: set[str
     ws=wb.add_worksheet("All User data")
     fmt=_add_formats(wb)
     raw_cols=users.columns
+    helper_count=_helper_count(spec)
     ws.write(0,0,"To be considered",fmt["helper_header"])
-    ws.write(0,1,"To be considered(Values - TRUE/FALSE)",fmt["helper_header"])
-    for j,h in enumerate(raw_cols,2): ws.write(0,j,h,fmt["base_header"])
-    ws.freeze_panes(1,2)
-    ws.set_column(0,0,16); ws.set_column(1,1,36)
-    for j,h in enumerate(raw_cols,2): ws.set_column(j,j,min(32,max(10,len(h)+2)))
+    if spec.is_main:
+        ws.write(0,1,"To be considered(Values - TRUE/FALSE)",fmt["helper_header"])
+    for j,h in enumerate(raw_cols,helper_count): ws.write(0,j,h,fmt["base_header"])
+    ws.freeze_panes(1,helper_count)
+    ws.set_column(0,0,16)
+    if spec.is_main:
+        ws.set_column(1,1,36)
+    for j,h in enumerate(raw_cols,helper_count): ws.set_column(j,j,min(32,max(10,len(h)+2)))
     # Register a date style in the worksheet XML so the streaming pass can reuse it.
-    date_cols=[2+i for i,h in enumerate(raw_cols) if _date_like_header(h)]
+    date_cols=[helper_count+i for i,h in enumerate(raw_cols) if _date_like_header(h)]
     if date_cols:
         ws.write_datetime(1,date_cols[0],datetime(2000,1,1),_excel_date_format(wb))
-    col_index={c:2+i for i,c in enumerate(raw_cols)}
+    col_index={c:helper_count+i for i,c in enumerate(raw_cols)}
     return {k:xl_col_to_name(col_index[v]) for k,v in users.required.items() if v is not None}
 
 
@@ -1186,22 +1316,26 @@ def _write_attendance(wb, att: AttendanceData, users: UserData, spec: ReportSpec
     """Create only the Attendance sheet skeleton; rows are streamed into XLSX after close."""
     ws=wb.add_worksheet("Attendance Base")
     fmt=_add_formats(wb)
+    helper_count=_helper_count(spec)
     ws.write(0,0,"To be considered",fmt["helper_header"])
-    ws.write(0,1,"To be considered(Values - TRUE/FALSE)",fmt["helper_header"])
+    if spec.is_main:
+        ws.write(0,1,"To be considered(Values - TRUE/FALSE)",fmt["helper_header"])
     physical=[]
     for h in att.identity_columns: physical.append((h,None,None))
     for d in att.dates:
         for si,sub in enumerate(ATTENDANCE_SUBHEADERS): physical.append((att.blocks[d][sub],d if si==0 else None,sub))
     date_fmt=_excel_date_format(wb)
-    for j,(internal,top,sub) in enumerate(physical,2):
+    for j,(internal,top,sub) in enumerate(physical,helper_count):
         if top is not None:
             ws.write_datetime(0,j,datetime.combine(top,datetime.min.time()),date_fmt)
         else:
             ws.write(0,j,internal if sub is None else "",fmt["base_header"])
         if sub is not None: ws.write(1,j,sub,fmt["base_header"])
-    ws.freeze_panes(2,2)
-    ws.set_column(0,0,16); ws.set_column(1,1,36)
-    for j,(internal,_,sub) in enumerate(physical,2):
+    ws.freeze_panes(2,helper_count)
+    ws.set_column(0,0,16)
+    if spec.is_main:
+        ws.set_column(1,1,36)
+    for j,(internal,_,sub) in enumerate(physical,helper_count):
         ws.set_column(j,j,16 if sub is None else (10 if sub=="shift" else 13))
 
 
@@ -1248,29 +1382,30 @@ def _split_sheetdata(xml: bytes) -> tuple[bytes,bytes]:
 
 
 def _stream_all_user_xml(path: Path, prefix: bytes, suffix: bytes, users: UserData, spec: ReportSpec,
-                         floater_ids:set[str], date_style:str|None, progress:ProgressCallback|None, base_pct:int) -> None:
+                         floater_ids:set[str], has_floater_sheet: bool, date_style:str|None,
+                         progress:ProgressCallback|None, base_pct:int) -> None:
     raw_cols=users.columns
-    physical_count=2+len(raw_cols)
+    helper_count=_helper_count(spec)
+    physical_count=helper_count+len(raw_cols)
     letters=[xl_col_to_name(i) for i in range(physical_count)]
     max_col=letters[-1]
-    col_idx={c:2+i for i,c in enumerate(raw_cols)}
+    col_idx={c:helper_count+i for i,c in enumerate(raw_cols)}
     id_idx=col_idx[users.required["id"]]; role_idx=col_idx[users.required["role"]]
-    floater_idx=col_idx[users.required["floater"]] if users.required["floater"] else None
     uid_vals=_frame_col(users.frame,users.required["id"]); role_vals=_frame_col(users.frame,users.required["role"])
     source_total=_frame_height(users.frame)
     flo_vals=_frame_col(users.frame,users.required["floater"]) if users.required["floater"] else [""]*source_total
     role_set={_role_key(x) for x in spec.roles}
-    # Main Attendance intentionally keeps the complete source data. Dedicated role
-    # reports are cleaned here so their embedded base sheet contains only that role.
-    # This is done during streaming (rather than copying/filtering the whole frame)
-    # to keep memory use low on large source files.
+    # The loader has already restricted every source to DC/XD facilities.
+    # Main Attendance keeps all scoped roles; dedicated reports keep their own role.
     total=(source_total if spec.is_main else sum(1 for v in role_vals if _role_key(v) in role_set))
     prefix=re.sub(rb'<dimension ref="[^"]*"\s*/>',f'<dimension ref="A1:{max_col}{total+1}"/>'.encode(),prefix,count=1)
     date_cols={i for i,h in enumerate(raw_cols) if _date_like_header(h)}
     with open(path,"wb",buffering=1024*1024) as f:
         f.write(prefix); f.write(b"<sheetData>")
-        cells=[_inline_xml("A1","To be considered"),_inline_xml("B1","To be considered(Values - TRUE/FALSE)")]
-        cells += [_inline_xml(f"{letters[2+i]}1",h) for i,h in enumerate(raw_cols)]
+        cells=[_inline_xml("A1","To be considered")]
+        if spec.is_main:
+            cells.append(_inline_xml("B1","To be considered(Values - TRUE/FALSE)"))
+        cells += [_inline_xml(f"{letters[helper_count+i]}1",h) for i,h in enumerate(raw_cols)]
         f.write((f'<row r="1">{"".join(cells)}</row>').encode())
         out_row=2
         for idx,row in enumerate(_frame_iter_rows(users.frame,raw_cols)):
@@ -1280,18 +1415,13 @@ def _stream_all_user_xml(path: Path, prefix: bytes, suffix: bytes, users: UserDa
             role_cell=f"{letters[role_idx]}{i}"; id_cell=f"{letters[id_idx]}{i}"
             consider=_role_key(role_vals[idx]) in role_set
             fa=f'=IF(COUNTIF(Ref!$A:$A,{role_cell})>0,"Yes","No")'
+            parts=[_formula_xml(f"A{i}",fa,"Yes" if consider else "No")]
             if spec.is_main:
-                if floater_idx is not None:
-                    fb=(f'=IF(INDEX($1:$1048576,ROW(),MATCH("Floater",$1:$1,0))="Yes",TRUE,'
-                        f'IF(INDEX($1:$1048576,ROW(),MATCH("Floater",$1:$1,0))="No",FALSE,'
-                        f'IF(INDEX($1:$1048576,ROW(),MATCH("Floater",$1:$1,0))="-","-",COUNTIF(Floater!$A:$A,{id_cell})>0)))')
-                else: fb=f'=COUNTIF(Floater!$A:$A,{id_cell})>0'
+                fb=_all_user_floater_formula(id_cell, users.required["floater"] is not None, has_floater_sheet)
                 cached_b=_floater_from_user(flo_vals[idx],uid_vals[idx],floater_ids)
-            else:
-                fb=f'=COUNTIF(Floater!$A:$A,{id_cell})>0'; cached_b=_clean_space(uid_vals[idx]).casefold() in floater_ids
-            parts=[_formula_xml(f"A{i}",fa,"Yes" if consider else "No"),_formula_xml(f"B{i}",fb,cached_b)]
+                parts.append(_formula_xml(f"B{i}",fb,cached_b))
             for j,v in enumerate(row):
-                ref=f"{letters[2+j]}{i}"
+                ref=f"{letters[helper_count+j]}{i}"
                 if j in date_cols:
                     d=_parse_value_date(v)
                     if d: parts.append(_number_xml(ref,_excel_serial(d),date_style))
@@ -1305,33 +1435,36 @@ def _stream_all_user_xml(path: Path, prefix: bytes, suffix: bytes, users: UserDa
 
 
 def _stream_attendance_xml(path: Path,prefix:bytes,suffix:bytes,att:AttendanceData,users:UserData,spec:ReportSpec,
-                           floater_ids:set[str],user_raw_floater:dict[str,str],date_style:str|None,
-                           progress:ProgressCallback|None,base_pct:int)->None:
+                           floater_ids:set[str],user_raw_floater:dict[str,str],has_floater_sheet:bool,
+                           date_style:str|None,progress:ProgressCallback|None,base_pct:int)->None:
+    helper_count=_helper_count(spec)
     physical=[]
     for h in att.identity_columns: physical.append((h,None,None))
     for d in att.dates:
         for si,sub in enumerate(ATTENDANCE_SUBHEADERS): physical.append((att.blocks[d][sub],d if si==0 else None,sub))
-    count=2+len(physical); letters=[xl_col_to_name(i) for i in range(count)]
-    col_idx={internal:2+i for i,(internal,_,_) in enumerate(physical)}
+    count=helper_count+len(physical); letters=[xl_col_to_name(i) for i in range(count)]
+    col_idx={internal:helper_count+i for i,(internal,_,_) in enumerate(physical)}
     user_idx=col_idx[att.identity_map["user_id"]]; role_idx=col_idx[att.identity_map["role"]]
-    all_id_idx=2+users.columns.index(users.required["id"]); all_id_letter=xl_col_to_name(all_id_idx)
+    all_id_idx=helper_count+users.columns.index(users.required["id"]); all_id_letter=xl_col_to_name(all_id_idx)
     uid_vals=_frame_col(att.frame,att.identity_map["user_id"]); role_vals=_frame_col(att.frame,att.identity_map["role"])
     role_set={_role_key(x) for x in spec.roles}; phys_cols=[x[0] for x in physical]
     source_total=_frame_height(att.frame)
-    # As with All User data, retain the full base only for Main Attendance. A
-    # dedicated role workbook keeps only rows matching that report's role.
+    # Source facilities are already DC/XD-only. Main retains all scoped roles;
+    # a dedicated role workbook additionally keeps only that report's role.
     total=(source_total if spec.is_main else sum(1 for v in role_vals if _role_key(v) in role_set))
     prefix=re.sub(rb'<dimension ref="[^"]*"\s*/>',f'<dimension ref="A1:{letters[-1]}{total+2}"/>'.encode(),prefix,count=1)
     with open(path,"wb",buffering=1024*1024) as f:
         f.write(prefix); f.write(b"<sheetData>")
-        row1=[_inline_xml("A1","To be considered"),_inline_xml("B1","To be considered(Values - TRUE/FALSE)")]
-        for j,(internal,top,sub) in enumerate(physical,2):
+        row1=[_inline_xml("A1","To be considered")]
+        if spec.is_main:
+            row1.append(_inline_xml("B1","To be considered(Values - TRUE/FALSE)"))
+        for j,(internal,top,sub) in enumerate(physical,helper_count):
             ref=f"{letters[j]}1"
             if top is not None: row1.append(_number_xml(ref,_excel_serial(top),date_style))
             elif sub is None: row1.append(_inline_xml(ref,internal))
         f.write((f'<row r="1">{"".join(row1)}</row>').encode())
         row2=[]
-        for j,(_,_,sub) in enumerate(physical,2):
+        for j,(_,_,sub) in enumerate(physical,helper_count):
             if sub is not None: row2.append(_inline_xml(f"{letters[j]}2",sub))
         f.write((f'<row r="2">{"".join(row2)}</row>').encode())
         out_row=3
@@ -1342,14 +1475,13 @@ def _stream_attendance_xml(path: Path,prefix:bytes,suffix:bytes,att:AttendanceDa
             role_cell=f"{letters[role_idx]}{i}"; user_cell=f"{letters[user_idx]}{i}"
             consider=_role_key(role_vals[idx]) in role_set
             fa=f'=IF(COUNTIF(Ref!$A:$A,{role_cell})>0,"Yes","No")'
-            if users.required.get("floater"):
-                fb=(f'=IF(INDEX(\'All User data\'!$1:$1048576,MATCH({user_cell},\'All User data\'!${all_id_letter}:${all_id_letter},0),MATCH("Floater",\'All User data\'!$1:$1,0))="Yes",TRUE,'
-                    f'IF(INDEX(\'All User data\'!$1:$1048576,MATCH({user_cell},\'All User data\'!${all_id_letter}:${all_id_letter},0),MATCH("Floater",\'All User data\'!$1:$1,0))="No",FALSE,'
-                    f'IF(INDEX(\'All User data\'!$1:$1048576,MATCH({user_cell},\'All User data\'!${all_id_letter}:${all_id_letter},0),MATCH("Floater",\'All User data\'!$1:$1,0))="-","-",COUNTIF(Floater!$A:$A,{user_cell})>0)))')
-            else: fb=f'=COUNTIF(Floater!$A:$A,{user_cell})>0'
-            rawflo=user_raw_floater.get(_clean_space(uid_vals[idx]).casefold(),""); cached_b=_floater_from_user(rawflo,uid_vals[idx],floater_ids)
-            parts=[_formula_xml(f"A{i}",fa,"Yes" if consider else "No"),_formula_xml(f"B{i}",fb,cached_b)]
-            for j,v in enumerate(row,2):
+            parts=[_formula_xml(f"A{i}",fa,"Yes" if consider else "No")]
+            if spec.is_main:
+                fb=_attendance_floater_formula(user_cell,all_id_letter,users.required.get("floater") is not None,has_floater_sheet)
+                rawflo=user_raw_floater.get(_clean_space(uid_vals[idx]).casefold(),"")
+                cached_b=_floater_from_user(rawflo,uid_vals[idx],floater_ids)
+                parts.append(_formula_xml(f"B{i}",fb,cached_b))
+            for j,v in enumerate(row,helper_count):
                 if _cell_text(v): parts.append(_inline_xml(f"{letters[j]}{i}",v))
             f.write((f'<row r="{i}">{"".join(parts)}</row>').encode())
             written=i-2
@@ -1359,7 +1491,8 @@ def _stream_attendance_xml(path: Path,prefix:bytes,suffix:bytes,att:AttendanceDa
 
 
 def _inject_large_base_sheets(workbook_path:Path,users:UserData,att:AttendanceData,spec:ReportSpec,floater_ids:set[str],
-                              user_raw_floater:dict[str,str],progress:ProgressCallback|None,base_pct:int,date_count:int)->None:
+                              user_raw_floater:dict[str,str],has_floater_sheet:bool,
+                              progress:ProgressCallback|None,base_pct:int,date_count:int)->None:
     import xml.etree.ElementTree as ET
     replacement=workbook_path.with_name(workbook_path.stem+".streamed.xlsx")
     with zipfile.ZipFile(workbook_path,"r") as zin:
@@ -1380,8 +1513,8 @@ def _inject_large_base_sheets(workbook_path:Path,users:UserData,att:AttendanceDa
         m=re.search(rb'<c r="[A-Z]+1" s="(\d+)"[^>]*><v>\d+</v></c>',at_xml); at_date_style=m.group(1).decode() if m else None
         with tempfile.TemporaryDirectory(prefix="aa_stream_") as td:
             td=Path(td); au_file=td/"alluser.xml"; at_file=td/"attendance.xml"
-            _stream_all_user_xml(au_file,au_pre,au_suf,users,spec,floater_ids,au_date_style,progress,base_pct)
-            _stream_attendance_xml(at_file,at_pre,at_suf,att,users,spec,floater_ids,user_raw_floater,at_date_style,progress,base_pct)
+            _stream_all_user_xml(au_file,au_pre,au_suf,users,spec,floater_ids,has_floater_sheet,au_date_style,progress,base_pct)
+            _stream_attendance_xml(at_file,at_pre,at_suf,att,users,spec,floater_ids,user_raw_floater,has_floater_sheet,at_date_style,progress,base_pct)
             with zipfile.ZipFile(replacement,"w",compression=zipfile.ZIP_DEFLATED,compresslevel=1) as zout:
                 merge_refs=["A1:A2"]+[f"{xl_col_to_name(1+i*11)}1:{xl_col_to_name(1+i*11+10)}1" for i in range(date_count)]
                 for info in zin.infolist():
@@ -1454,7 +1587,10 @@ def _safe_filename_component(value: str) -> str:
     return cleaned or "Role"
 
 
-def _generate_one(path: Path, spec: ReportSpec, users: UserData, att: AttendanceData, dates: list[date], dc_sites: list[str], xd_sites: list[str], floater_ids, user_raw_floater, active_dates, metrics, progress: ProgressCallback | None, base_pct: int):
+def _generate_one(path: Path, spec: ReportSpec, users: UserData, att: AttendanceData, dates: list[date],
+                  dc_sites: list[str], xd_sites: list[str], floater_rows: list[list[str]] | None,
+                  floater_ids: set[str], user_raw_floater, active_dates, metrics,
+                  progress: ProgressCallback | None, base_pct: int):
     if spec.is_main:
         deployed_map, dep_value_col = {}, None
     else:
@@ -1468,24 +1604,28 @@ def _generate_one(path: Path, spec: ReportSpec, users: UserData, att: Attendance
     dc_output_sites = sorted(dc_sites, key=lambda site: vals[last_report_date][site][10])
     xd_output_sites = sorted(xd_sites, key=lambda site: vals[last_report_date][site][10])
 
+    helper_count=_helper_count(spec)
+    has_floater_sheet=spec.is_main and floater_rows is not None
     wb=xlsxwriter.Workbook(path,{"constant_memory":True,"use_future_functions":True})
     wb.set_calc_mode("auto")
     try:
-        raw_col_idx={c:2+i for i,c in enumerate(users.columns)}
+        raw_col_idx={c:helper_count+i for i,c in enumerate(users.columns)}
         au_letters={k:xl_col_to_name(raw_col_idx[v]) for k,v in users.required.items() if v is not None}
         _write_summary_sheet(wb,"Attendance Adherence - DC",spec,dc_output_sites,dates,vals,au_letters,dep_value_col)
         _write_summary_sheet(wb,"Attendance Adherence - XD",spec,xd_output_sites,dates,vals,au_letters,dep_value_col)
         _write_ref_sheet(wb,list(spec.roles))
         if not spec.is_main and spec.deployed_sheet_name:
             _write_deployed_sheet_from_master(wb,spec.deployed_sheet_name)
-        _write_floater_sheet(wb,_read_csv_asset("floater.csv"))
+        if has_floater_sheet:
+            _write_floater_sheet(wb,floater_rows)
         _progress(progress,base_pct+4,f"{spec.display_name}: writing All User data...")
         _write_all_users(wb,users,spec,floater_ids)
         _progress(progress,base_pct+10,f"{spec.display_name}: writing Attendance Base...")
         _write_attendance(wb,att,users,spec,floater_ids,user_raw_floater)
     finally:
         wb.close()
-    _inject_large_base_sheets(path,users,att,spec,floater_ids,user_raw_floater,progress,base_pct,len(dates))
+    _inject_large_base_sheets(path,users,att,spec,floater_ids,user_raw_floater,has_floater_sheet,
+                              progress,base_pct,len(dates))
 
 
 def generate_reports(inputs: ReportInputs, progress: ProgressCallback | None=None) -> list[Path]:
@@ -1498,8 +1638,10 @@ def generate_reports(inputs: ReportInputs, progress: ProgressCallback | None=Non
     dc=_site_order(inputs.selected_dc,DEFAULT_DC_SITES); xd=_site_order(inputs.selected_xd,DEFAULT_XD_SITES)
     if not dc and not xd: raise ReportError("Select at least one DC or XD facility.")
     specs=_build_report_specs(inputs.selected_reports)
+    needs_floater = any(spec.is_main for spec in specs)
+    floater_rows, floater_ids = _read_floater_input(inputs.floater_path) if needs_floater else (None, set())
     _progress(progress,14,"Building role, floater and attendance caches...")
-    floater_ids,user_raw_floater,active_dates,metrics=_build_caches(users,att,dates,specs,progress)
+    floater_ids,user_raw_floater,active_dates,metrics=_build_caches(users,att,dates,specs,floater_ids,progress)
     stamp=_ordinal_day(date.today())
     outputs: list[tuple[ReportSpec,Path]]=[]
     for spec in specs:
@@ -1516,7 +1658,7 @@ def generate_reports(inputs: ReportInputs, progress: ProgressCallback | None=Non
     for idx,(spec,path) in enumerate(outputs):
         base=min(90,start_pct+idx*step)
         _progress(progress,base,f"Creating {spec.display_name} report...")
-        _generate_one(path,spec,users,att,dates,dc,xd,floater_ids,user_raw_floater,active_dates,metrics,progress,base)
+        _generate_one(path,spec,users,att,dates,dc,xd,floater_rows,floater_ids,user_raw_floater,active_dates,metrics,progress,base)
         _progress(progress,min(98,base+step-2),f"{spec.display_name} report saved.")
     _progress(progress,100,f"{len(outputs)} report(s) generated successfully.")
     return [p for _,p in outputs]

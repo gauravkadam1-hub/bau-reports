@@ -1,0 +1,15 @@
+{
+  "original_archive": "BAU_DCXDScope_v5.zip",
+  "original_archive_sha256": "decd0237dd878d23e8ab568e31a6fb815888b814ca18039c99835b87f3b761c7",
+  "original_files_verified_unchanged": 123,
+  "reference_workbook_sha256": "4a620167fa4c4d684ba6ef42b5c710eae842e78841cd027da73c77ff5eeb795d",
+  "reference_matches_untouched_duplicate": true,
+  "runtime_files_changed": [
+    {
+      "path": "engines/attendance/engine.py",
+      "before_sha256": "c4f99ec753f20908d5907518540d1dc849bcc0943ba6616150ed66a1b3cab6b3",
+      "after_sha256": "ee14172c2da3c64edde1af05683aeb8ff7fbcef7ec7bfdef4ec4d8747598b011"
+    }
+  ],
+  "unmodified_existing_runtime_and_assets": "All other original engines, portal, app.py, requirements, masters and assets are byte-identical to v5."
+}

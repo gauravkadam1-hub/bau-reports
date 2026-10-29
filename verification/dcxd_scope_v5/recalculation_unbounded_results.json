@@ -1,0 +1,672 @@
+[
+  {
+    "case": "onboarding_reference",
+    "formula_caches_compared": 222,
+    "differences": [],
+    "errors": [],
+    "rendered_sheets": [
+      "Aadhar - DC",
+      "Aadhar - XD",
+      "Hyperverge - DC",
+      "Hyperverge - XD",
+      "Manual Onb - HR wise details",
+      "RED Cases - HR wise details",
+      "Onboarding Base"
+    ]
+  },
+  {
+    "case": "roster",
+    "formula_caches_compared": 124,
+    "differences": [
+      {
+        "sheet": "DC Summary",
+        "cell": "B3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "D3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "G3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "I3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "B4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "D4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "G4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "I4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "B3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "D3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "G3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "I3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "B4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "D4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "G4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "I4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "B3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "D3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "E3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "G3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "B4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "D4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "E4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "G4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "B3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "D3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "E3",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "G3",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "B4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "D4",
+        "cached": 100.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "E4",
+        "cached": 2,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "G4",
+        "cached": 100.0,
+        "recalculated": 0
+      }
+    ],
+    "errors": [
+      {
+        "sheet": "DC Summary",
+        "cell": "B3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "G3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "B4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Summary",
+        "cell": "G4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "B3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "G3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "B4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Summary",
+        "cell": "G4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "B3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "E3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "B4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "DC Roster Adoption",
+        "cell": "E4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "B3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "E3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "B4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "XD Roster Adoption",
+        "cell": "E4",
+        "value": "#VALUE!"
+      }
+    ],
+    "rendered_sheets": [
+      "DC Summary",
+      "XD Summary",
+      "Master Base",
+      "Roster Base",
+      "Attendance Base"
+    ]
+  },
+  {
+    "case": "attendance_pandas",
+    "formula_caches_compared": 112,
+    "differences": [
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "B3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "C3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "D3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "H3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "I3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "L3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "M3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "N3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "O3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "S3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "T3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "W3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "B4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "C4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "D4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "H4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "I4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "L4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "M4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "N4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "O4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "S4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "T4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "W4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "B3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "C3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "D3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "H3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "I3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "L3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "M3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "N3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "O3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "S3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "T3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "W3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "B4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "C4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "D4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "H4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "I4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "L4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "M4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "N4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "O4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "S4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "T4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "W4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B2",
+        "cached": false,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B3",
+        "cached": false,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B4",
+        "cached": false,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B5",
+        "cached": false,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B6",
+        "cached": false,
+        "recalculated": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B7",
+        "cached": false,
+        "recalculated": "#VALUE!"
+      }
+    ],
+    "errors": [
+      {
+        "sheet": "All User data",
+        "cell": "B2",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B3",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B4",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B5",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B6",
+        "value": "#VALUE!"
+      },
+      {
+        "sheet": "All User data",
+        "cell": "B7",
+        "value": "#VALUE!"
+      }
+    ],
+    "rendered_sheets": [
+      "Attendance Adherence - DC",
+      "Attendance Adherence - XD",
+      "All User data",
+      "Attendance Base"
+    ]
+  }
+]

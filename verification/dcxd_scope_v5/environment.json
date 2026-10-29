@@ -1,0 +1,14 @@
+{
+  "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+  "versions": {
+    "pandas": "2.2.3",
+    "xlsxwriter": "3.2.9",
+    "openpyxl": "3.1.5",
+    "pytest": "9.0.2"
+  },
+  "missing": [
+    "polars: No module named 'polars'",
+    "fastexcel: No module named 'fastexcel'",
+    "xlrd: No module named 'xlrd'"
+  ]
+}

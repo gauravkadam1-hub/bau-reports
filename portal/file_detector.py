@@ -11,6 +11,8 @@ from .models import DetectionResult
 _PATTERNS = {
     "all_users": re.compile(r"^all_user_data_all_.*\.(csv|xlsx|xlsm|xls)$", re.I),
     "attendance": re.compile(r"^attendance_report_.*\.(csv|xlsx|xlsm)$", re.I),
+    # Optional Attendance-only floater list. Examples: Floater.csv, Floaters.xlsx, Floater Base.xlsm.
+    "floater": re.compile(r"^floaters?(?:[ _-].*)?\.(csv|xlsx|xlsm|xls)$", re.I),
     "roster": re.compile(r"^roster_all_facilities_.*\.(csv|xlsx|xlsm|xls)$", re.I),
     "onboarding": re.compile(r"^onboarding_funnel_all_.*\.(csv|xlsx|xlsm)$", re.I),
     # Real source is commonly flex.xlsx / Flex Base.xlsx. Keep the prefix strict.
@@ -25,7 +27,7 @@ def classify_filename(name: str) -> str:
     base = Path(name).name
     if base.casefold() in _IGNORED:
         return "ignored"
-    for category in ("roster", "flex", "all_users", "attendance", "onboarding"):
+    for category in ("roster", "flex", "all_users", "attendance", "floater", "onboarding"):
         if _PATTERNS[category].match(base):
             return category
     return "unknown"
@@ -40,7 +42,7 @@ def detect_files(names: Iterable[str]) -> DetectionResult:
     # Deterministic ordering matters because the two All Users exports are consumed
     # in chronological filename order by the report engines.
     for field_name in (
-        "roster", "flex", "all_users", "attendance", "onboarding", "ignored", "unknown"
+        "roster", "flex", "all_users", "attendance", "floater", "onboarding", "ignored", "unknown"
     ):
         getattr(result, field_name).sort(key=str.casefold)
     return result

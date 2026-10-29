@@ -1,0 +1,106 @@
+[
+  {
+    "file": "report.xlsx",
+    "bytes": 1981984,
+    "largest_parts": [
+      {
+        "part": "xl/worksheets/sheet7.xml",
+        "compressed_bytes": 1812451,
+        "uncompressed_bytes": 16839325
+      },
+      {
+        "part": "xl/sharedStrings.xml",
+        "compressed_bytes": 142062,
+        "uncompressed_bytes": 1862340
+      },
+      {
+        "part": "xl/worksheets/sheet1.xml",
+        "compressed_bytes": 7696,
+        "uncompressed_bytes": 97123
+      },
+      {
+        "part": "xl/worksheets/sheet2.xml",
+        "compressed_bytes": 5613,
+        "uncompressed_bytes": 61131
+      },
+      {
+        "part": "xl/worksheets/sheet3.xml",
+        "compressed_bytes": 3476,
+        "uncompressed_bytes": 48792
+      },
+      {
+        "part": "xl/worksheets/sheet4.xml",
+        "compressed_bytes": 2926,
+        "uncompressed_bytes": 31615
+      },
+      {
+        "part": "xl/theme/theme1.xml",
+        "compressed_bytes": 1456,
+        "uncompressed_bytes": 6994
+      },
+      {
+        "part": "xl/styles.xml",
+        "compressed_bytes": 890,
+        "uncompressed_bytes": 7268
+      }
+    ],
+    "base": {
+      "data_rows": 20000,
+      "stored_cells": 540027,
+      "stored_blank_cells": 320000,
+      "styled_cells": 540027
+    }
+  },
+  {
+    "file": "report.xlsx",
+    "bytes": 1027647,
+    "largest_parts": [
+      {
+        "part": "xl/worksheets/sheet7.xml",
+        "compressed_bytes": 839518,
+        "uncompressed_bytes": 8056689
+      },
+      {
+        "part": "xl/sharedStrings.xml",
+        "compressed_bytes": 160855,
+        "uncompressed_bytes": 1862340
+      },
+      {
+        "part": "xl/worksheets/sheet1.xml",
+        "compressed_bytes": 7620,
+        "uncompressed_bytes": 97125
+      },
+      {
+        "part": "xl/worksheets/sheet2.xml",
+        "compressed_bytes": 5529,
+        "uncompressed_bytes": 60897
+      },
+      {
+        "part": "xl/worksheets/sheet3.xml",
+        "compressed_bytes": 3479,
+        "uncompressed_bytes": 50292
+      },
+      {
+        "part": "xl/worksheets/sheet4.xml",
+        "compressed_bytes": 2894,
+        "uncompressed_bytes": 32175
+      },
+      {
+        "part": "xl/theme/theme1.xml",
+        "compressed_bytes": 1448,
+        "uncompressed_bytes": 6994
+      },
+      {
+        "part": "xl/styles.xml",
+        "compressed_bytes": 869,
+        "uncompressed_bytes": 6401
+      }
+    ],
+    "base": {
+      "data_rows": 20000,
+      "stored_cells": 220027,
+      "stored_blank_cells": 0,
+      "styled_cells": 20000
+    }
+  }
+]

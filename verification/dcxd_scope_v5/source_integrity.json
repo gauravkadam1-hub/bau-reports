@@ -1,0 +1,34 @@
+{
+  "baseline_archive": "BAU_No_Workbook_Titles_v4.zip",
+  "baseline_archive_sha256": "dc76958d874a5b734a386b660f2e24d5a15a6c8f374e859487ada8bd1fa613c7",
+  "all_baseline_archive_members_unchanged": true,
+  "baseline_files_checked": 106,
+  "runtime_files_changed_or_added": [
+    "engines/facility_scope.py",
+    "engines/onboarding/onboarding_data.py",
+    "engines/flex/engine.py",
+    "engines/attendance/engine.py",
+    "engines/roster/engine.py"
+  ],
+  "changed_functions_only": {
+    "engines/onboarding/onboarding_data.py": [
+      "prepare_report"
+    ],
+    "engines/flex/engine.py": [
+      "load_attendance",
+      "load_flex",
+      "load_users"
+    ],
+    "engines/attendance/engine.py": [
+      "_stream_attendance_xml",
+      "load_attendance",
+      "load_users"
+    ],
+    "engines/roster/engine.py": [
+      "load_attendance",
+      "load_roster"
+    ]
+  },
+  "all_other_engine_files_and_reference_assets_unchanged": true,
+  "app_portal_private_settings_examples_requirements_unchanged": true
+}

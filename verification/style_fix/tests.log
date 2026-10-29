@@ -1,0 +1,18 @@
+........ssssssssssssssssssssssss........................................ [ 62%]
+...........................................                              [100%]
+=========================== short test summary info ============================
+SKIPPED [4] tests/test_onboarding_polars_pipeline.py:51: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [4] tests/test_onboarding_polars_pipeline.py:67: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:80: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:86: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:93: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:99: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:108: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:116: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [3] tests/test_onboarding_polars_pipeline.py:125: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:131: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [3] tests/test_onboarding_polars_pipeline.py:138: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:147: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:156: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:162: Real Polars is required; no mocked dataframe tests count as integration.
+91 passed, 24 skipped in 2.31s

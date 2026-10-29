@@ -1,4 +1,12 @@
-# Reporting Automation Hub - Streamlit foundation
+> Latest build: **2026-10-24.5 DC/XD-only base scope**. See [DCXD_BASE_SCOPE_V5.md](DCXD_BASE_SCOPE_V5.md) for the exact filter, installation, measurements and verification limits.
+
+> Onboarding update: **build 2026-10-24.3**. See [ONBOARDING_COMPACT_V3.md](ONBOARDING_COMPACT_V3.md) for plain Base, zero-safe RED scales, measured file-size savings, and installation.
+
+> Onboarding correction build **2026-10-24.2**: see [ONBOARDING_STYLES_FIX.md](ONBOARDING_STYLES_FIX.md) before upgrading.
+
+# Reporting Automation Hub
+
+**Onboarding update (24 October 2026):** Onboarding now uses Polars for processing and creates a fresh workbook with XlsxWriter. Read [ONBOARDING_MIGRATION.md](ONBOARDING_MIGRATION.md) for changes, installation, verification results, and the outstanding real-backend/Excel acceptance checks.
 
 Phase-1 architecture for a single internal portal that:
 
@@ -23,7 +31,7 @@ Dates/timestamps in filenames may change without affecting recognition.
 
 ## Existing engines
 
-The `engines/` folder contains copies of the current supplied generator engines/assets, not rewritten report calculations. Streamlit adapters invoke their public scan/generate functions.
+Streamlit adapters invoke each engine's public scan/generate functions. Attendance, Flex, and Roster retain the supplied engine implementations. Onboarding has been migrated to Polars + XlsxWriter while preserving its calculation rules, public API, and report layout; its reference XLSX is no longer loaded at runtime. See `ONBOARDING_MIGRATION.md` for the exact scope and verification limits.
 
 ## Local start
 
@@ -46,7 +54,7 @@ The portal keeps separate remembered facility selections for Roster, Flex, Atten
 - Roster clears `NEW` when the new site is selected, matching the desktop app.
 - Flex clears `NEW` after a successful Flex generation, matching the desktop app.
 - Attendance records the current discovered site list when generation starts, matching the desktop app.
-- Onboarding shows every current template facility as a checkbox. New source-only facilities start unchecked and labelled `NEW`; selected new facilities become known after a successful generation, while unticked new facilities remain `NEW` for a future run.
+- Onboarding shows every current layout-default facility as a checkbox. New source-only facilities start unchecked and labelled `NEW`; selected new facilities become known after a successful generation, while unticked new facilities remain `NEW` for a future run.
 - Onboarding applies chosen facilities to both Aadhar and Hyperverge DC/XD pairs, preserving paired ordering and existing sorting logic.
 
 ### Local backend

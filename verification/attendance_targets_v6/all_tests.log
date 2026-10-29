@@ -1,0 +1,27 @@
+..........................................sss........................... [ 29%]
+.......s......sss..ss............................sssssssssssssssssssssss [ 59%]
+s....................................................................... [ 89%]
+.........................                                                [100%]
+=========================== short test summary info ============================
+SKIPPED [3] tests/test_attendance_targets.py:138: Real Polars is required for this backend test.
+SKIPPED [1] tests/test_facility_scope.py:54: Real Polars is required.
+SKIPPED [1] tests/test_facility_scope.py:191: Real Polars is required.
+SKIPPED [1] tests/test_facility_scope.py:206: Real Polars is required.
+SKIPPED [1] tests/test_facility_scope.py:225: Real Polars is required.
+SKIPPED [1] tests/test_facility_scope.py:260: Real Polars is required.
+SKIPPED [1] tests/test_facility_scope.py:286: Real Polars is required.
+SKIPPED [4] tests/test_onboarding_polars_pipeline.py:52: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [4] tests/test_onboarding_polars_pipeline.py:68: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:81: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:87: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:94: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:100: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:109: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:117: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [3] tests/test_onboarding_polars_pipeline.py:126: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:132: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [3] tests/test_onboarding_polars_pipeline.py:139: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:148: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:157: Real Polars is required; no mocked dataframe tests count as integration.
+SKIPPED [1] tests/test_onboarding_polars_pipeline.py:163: Real Polars is required; no mocked dataframe tests count as integration.
+208 passed, 33 skipped in 32.40s

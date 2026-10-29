@@ -1,0 +1,91 @@
+{
+  "mode": "v3-uncompressed",
+  "shape": "sparse",
+  "rows": 20000,
+  "path": "report.xlsx",
+  "bytes": 1067737,
+  "elapsed_seconds": 1.576,
+  "parts": [
+    {
+      "name": "[Content_Types].xml",
+      "compressed": 360,
+      "raw": 1983
+    },
+    {
+      "name": "_rels/.rels",
+      "compressed": 233,
+      "raw": 587
+    },
+    {
+      "name": "xl/_rels/workbook.xml.rels",
+      "compressed": 271,
+      "raw": 1544
+    },
+    {
+      "name": "xl/worksheets/sheet1.xml",
+      "compressed": 7700,
+      "raw": 97125
+    },
+    {
+      "name": "xl/worksheets/sheet2.xml",
+      "compressed": 5604,
+      "raw": 60897
+    },
+    {
+      "name": "xl/worksheets/sheet3.xml",
+      "compressed": 3518,
+      "raw": 50292
+    },
+    {
+      "name": "xl/worksheets/sheet4.xml",
+      "compressed": 2928,
+      "raw": 32175
+    },
+    {
+      "name": "xl/worksheets/sheet5.xml",
+      "compressed": 656,
+      "raw": 2258
+    },
+    {
+      "name": "xl/worksheets/sheet6.xml",
+      "compressed": 679,
+      "raw": 2294
+    },
+    {
+      "name": "xl/worksheets/sheet7.xml",
+      "compressed": 898160,
+      "raw": 8056689
+    },
+    {
+      "name": "xl/workbook.xml",
+      "compressed": 498,
+      "raw": 1058
+    },
+    {
+      "name": "xl/sharedStrings.xml",
+      "compressed": 142062,
+      "raw": 1862340
+    },
+    {
+      "name": "xl/styles.xml",
+      "compressed": 871,
+      "raw": 6401
+    },
+    {
+      "name": "xl/theme/theme1.xml",
+      "compressed": 1456,
+      "raw": 6994
+    },
+    {
+      "name": "docProps/core.xml",
+      "compressed": 409,
+      "raw": 784
+    },
+    {
+      "name": "docProps/app.xml",
+      "compressed": 446,
+      "raw": 1026
+    }
+  ],
+  "timing_scope": "original includes CSV read; other modes measure writer/compression/validation only, NOT comparable end-to-end pipelines"
+}

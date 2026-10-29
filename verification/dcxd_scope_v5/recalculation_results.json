@@ -1,0 +1,334 @@
+[
+  {
+    "case": "onboarding_reference",
+    "qa_only_bounded_formula_references": 130,
+    "formula_caches_compared": 222,
+    "differences": [],
+    "errors": [],
+    "rendered_sheets": [
+      "Aadhar - DC",
+      "Aadhar - XD",
+      "Hyperverge - DC",
+      "Hyperverge - XD",
+      "Manual Onb - HR wise details",
+      "RED Cases - HR wise details",
+      "Onboarding Base"
+    ]
+  },
+  {
+    "case": "roster",
+    "qa_only_bounded_formula_references": 28,
+    "formula_caches_compared": 124,
+    "differences": [],
+    "errors": [],
+    "rendered_sheets": [
+      "DC Summary",
+      "XD Summary",
+      "Master Base",
+      "Roster Base",
+      "Attendance Base"
+    ]
+  },
+  {
+    "case": "attendance_pandas",
+    "qa_only_bounded_formula_references": 48,
+    "formula_caches_compared": 112,
+    "differences": [
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "B3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "C3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "D3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "H3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "I3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "L3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "M3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "N3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "O3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "S3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "T3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "W3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "B4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "C4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "D4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "H4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "I4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "L4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "M4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "N4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "O4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "S4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "T4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - DC",
+        "cell": "W4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "B3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "C3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "D3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "H3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "I3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "L3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "M3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "N3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "O3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "S3",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "T3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "W3",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "B4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "C4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "D4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "H4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "I4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "L4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "M4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "N4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "O4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "S4",
+        "cached": 1,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "T4",
+        "cached": 1.0,
+        "recalculated": 0
+      },
+      {
+        "sheet": "Attendance Adherence - XD",
+        "cell": "W4",
+        "cached": 1.0,
+        "recalculated": 0
+      }
+    ],
+    "errors": [],
+    "rendered_sheets": [
+      "Attendance Adherence - DC",
+      "Attendance Adherence - XD",
+      "All User data",
+      "Attendance Base"
+    ]
+  }
+]

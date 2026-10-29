@@ -19,6 +19,7 @@ class DetectionResult:
     flex: list[str] = field(default_factory=list)
     all_users: list[str] = field(default_factory=list)
     attendance: list[str] = field(default_factory=list)
+    floater: list[str] = field(default_factory=list)
     onboarding: list[str] = field(default_factory=list)
     ignored: list[str] = field(default_factory=list)
     unknown: list[str] = field(default_factory=list)
@@ -57,6 +58,7 @@ class DetectionResult:
             self.flex,
             self.all_users,
             self.attendance,
+            self.floater,
             self.onboarding,
             self.ignored,
             self.unknown,

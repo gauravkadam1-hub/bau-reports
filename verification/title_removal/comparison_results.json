@@ -1,0 +1,107 @@
+{
+  "build": "2026-10-24.4-no-workbook-titles",
+  "baseline": "BAU_Onboarding_Compact_v3.zip",
+  "runtime_files_changed": [
+    "engines/flex/engine.py",
+    "engines/onboarding/onboarding_writer.py",
+    "engines/roster/engine.py"
+  ],
+  "unchanged_runtime_and_config_files": 35,
+  "source_ast_identical_after_only_title_removal": true,
+  "existing_tests_changed": false,
+  "syntax_checks_passed": 37,
+  "comparisons": {
+    "onboarding_both": {
+      "scope": "Actual Onboarding writer with independent prepared-data fixture",
+      "previous_title": "Onboarding Report",
+      "new_title": null,
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "byte_identical_other_parts": 15,
+      "all_non_title_core_metadata_unchanged": true
+    },
+    "onboarding_dc_only": {
+      "scope": "Actual Onboarding writer with independent prepared-data fixture",
+      "previous_title": "Onboarding Report",
+      "new_title": null,
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "byte_identical_other_parts": 15,
+      "all_non_title_core_metadata_unchanged": true
+    },
+    "onboarding_xd_only": {
+      "scope": "Actual Onboarding writer with independent prepared-data fixture",
+      "previous_title": "Onboarding Report",
+      "new_title": null,
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "byte_identical_other_parts": 15,
+      "all_non_title_core_metadata_unchanged": true
+    },
+    "onboarding_empty": {
+      "scope": "Actual Onboarding writer with independent prepared-data fixture",
+      "previous_title": "Onboarding Report",
+      "new_title": null,
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "byte_identical_other_parts": 15,
+      "all_non_title_core_metadata_unchanged": true
+    },
+    "roster_both": {
+      "scope": "Full Roster generation from synthetic CSV inputs",
+      "previous_title": "Roster Report",
+      "new_title": null,
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "byte_identical_other_parts": 17,
+      "all_non_title_core_metadata_unchanged": true
+    },
+    "roster_dc_only": {
+      "scope": "Full Roster generation from synthetic CSV inputs",
+      "previous_title": "Roster Report",
+      "new_title": null,
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "byte_identical_other_parts": 17,
+      "all_non_title_core_metadata_unchanged": true
+    },
+    "onboarding_metadata_serialization": {
+      "scope": "Actual source property dictionary; representative XlsxWriter workbook",
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "all_non_title_core_metadata_unchanged": true,
+      "new_title": null
+    },
+    "roster_metadata_serialization": {
+      "scope": "Actual source property dictionary; representative XlsxWriter workbook",
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "all_non_title_core_metadata_unchanged": true,
+      "new_title": null
+    },
+    "flex_metadata_serialization": {
+      "scope": "Actual source property dictionary; representative XlsxWriter workbook",
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "all_non_title_core_metadata_unchanged": true,
+      "new_title": null
+    }
+  },
+  "desktop_excel_clipboard_tested": false,
+  "gmail_paste_tested": false,
+  "full_flex_pipeline_tested": false,
+  "full_polars_onboarding_pipeline_tested": false,
+  "limitations": [
+    "Polars and FastExcel are unavailable here; their 24 existing integration cases remain skipped.",
+    "No desktop Excel or Gmail clipboard automation was performed."
+  ]
+}

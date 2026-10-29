@@ -1,0 +1,3 @@
+Verification BLOCKED. Required dependencies are missing:
+  polars: No module named 'polars'
+Install the existing requirements.txt and pytest, then rerun.

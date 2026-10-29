@@ -1,0 +1,14 @@
+{
+  "before": {
+    "rejected": true,
+    "error": "Onboarding workbook validation failed: styles.xml/font/family/@val must be an integer, not '2.0'."
+  },
+  "after": {
+    "worksheets": 7,
+    "cell_styles": 25,
+    "fonts": 7,
+    "checked_cells": 796,
+    "conditional_rules": 28,
+    "invalid_style_references": 0
+  }
+}

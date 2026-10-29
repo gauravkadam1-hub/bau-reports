@@ -1,0 +1,92 @@
+{
+  "local_formula_results_checked": 2628,
+  "differences": [],
+  "method": "Evaluation-only workbook retains generated summary SUM/IFERROR/=0 formulas. Source count/lookup formulas replaced with their before/after-verified cached values. Original reports not rewritten.",
+  "limitation": "Does not independently recalculate the unchanged whole-column COUNTIFS/INDEX/IFNA base lookups or constitute desktop Excel testing.",
+  "rendered_sheets": [
+    {
+      "role": "Housekeeping",
+      "sheet": "Attendance Adherence - DC",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Housekeeping",
+      "sheet": "Attendance Adherence - XD",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Housekeeping",
+      "sheet": "Ref",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Housekeeping",
+      "sheet": "Deployed HC",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Housekeeping",
+      "sheet": "Floater",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Housekeeping",
+      "sheet": "All User data",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Housekeeping",
+      "sheet": "Attendance Base",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "Attendance Adherence - DC",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "Attendance Adherence - XD",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "Ref",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "Deployed HC",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "Floater",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "All User data",
+      "rendered": true,
+      "visually_inspected": true
+    },
+    {
+      "role": "Security",
+      "sheet": "Attendance Base",
+      "rendered": true,
+      "visually_inspected": true
+    }
+  ]
+}

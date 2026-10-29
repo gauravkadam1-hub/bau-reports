@@ -1,0 +1,46 @@
+[
+  {
+    "version": "v4",
+    "summary_B3_D3": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "all_users_helpers": [
+      [
+        "Yes",
+        false
+      ],
+      [
+        "Yes",
+        false
+      ]
+    ],
+    "original_B3_formula": "=COUNTIFS('All User data'!$H:$H,$A3,'All User data'!$A:$A,\"Yes\",'All User data'!$G:$G,\"Onboarded - Active\",'All User data'!$B:$B,FALSE(),'All User data'!$I:$I,\"<=\"&B$1)",
+    "bounded_B3_formula": "=COUNTIFS('All User data'!$H$1:$H$7,$A3,'All User data'!$A$1:$A$7,\"Yes\",'All User data'!$G$1:$G$7,\"Onboarded - Active\",'All User data'!$B$1:$B$7,FALSE(),'All User data'!$I$1:$I$7,\"<=\"&B$1)"
+  },
+  {
+    "version": "v5",
+    "summary_B3_D3": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "all_users_helpers": [
+      [
+        "Yes",
+        false
+      ],
+      [
+        "Yes",
+        false
+      ]
+    ],
+    "original_B3_formula": "=COUNTIFS('All User data'!$H:$H,$A3,'All User data'!$A:$A,\"Yes\",'All User data'!$G:$G,\"Onboarded - Active\",'All User data'!$B:$B,FALSE(),'All User data'!$I:$I,\"<=\"&B$1)",
+    "bounded_B3_formula": "=COUNTIFS('All User data'!$H$1:$H$7,$A3,'All User data'!$A$1:$A$7,\"Yes\",'All User data'!$G$1:$G$7,\"Onboarded - Active\",'All User data'!$B$1:$B$7,FALSE(),'All User data'!$I$1:$I$7,\"<=\"&B$1)"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "version": "v7-attendance-optional-floater",
+  "based_on": "v6-attendance-targets",
+  "runtime_changes": [
+    {
+      "path": "app.py",
+      "before_sha256": "c4be61f3d5a3f8568bfdd031a5b2b2715a7565f6bed32f2d72847450723c33fb",
+      "after_sha256": "db4d1df906a4efe54f38eb13009f6bee9c0a21fd1d48b1f457f8b245f5476eaa"
+    },
+    {
+      "path": "portal/models.py",
+      "before_sha256": "1041cd756ab3b8c78ad248384816588ddc73b4cc15c7a3f567da06910c3a2319",
+      "after_sha256": "5c825d7b53c3f19ba3f0335ebbf763a7e99c0f6e84b82ef3fdaba231e79c3387"
+    },
+    {
+      "path": "portal/file_detector.py",
+      "before_sha256": "d1cc0df28d32a86b7b088b6df1bf15cb09f5cbdb137a8da64a14963bdad51256",
+      "after_sha256": "f235cf02887e018e3202c3e4a6960c36731ab79823b1a59dafd50079cdc5a197"
+    },
+    {
+      "path": "portal/generator.py",
+      "before_sha256": "2479885d9d3b8f9ce55c4fd5cf589613057ee7940a3d0a7b40ba5b5f695561c2",
+      "after_sha256": "04f12397a98f0332fe0f04b084470c2ef25fdbfa1433e1e753e2afb2689dcbf1"
+    },
+    {
+      "path": "engines/attendance/engine.py",
+      "before_sha256": "ee14172c2da3c64edde1af05683aeb8ff7fbcef7ec7bfdef4ec4d8747598b011",
+      "after_sha256": "cbbb7349e6376282f1613b43c0a4d8b143314798784351c5f807db64347f10da"
+    }
+  ],
+  "verification": {
+    "full_tests": "219 passed, 33 skipped",
+    "new_floater_tests": "11 passed"
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "four_days",
+    "formulas_checked": 224,
+    "differences": 0,
+    "examples": []
+  },
+  {
+    "scenario": "one_day",
+    "formulas_checked": 69,
+    "differences": 0,
+    "examples": []
+  },
+  {
+    "scenario": "calendar_gap",
+    "formulas_checked": 118,
+    "differences": 0,
+    "examples": []
+  },
+  {
+    "scenario": "default_sites",
+    "formulas_checked": 1654,
+    "differences": 0,
+    "examples": []
+  }
+]

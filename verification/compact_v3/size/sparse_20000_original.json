@@ -1,0 +1,86 @@
+{
+  "mode": "original",
+  "shape": "sparse",
+  "rows": 20000,
+  "path": "Onboarding Report - 24th Oct.xlsx",
+  "bytes": 1931601,
+  "elapsed_seconds": 7.65,
+  "parts": [
+    {
+      "name": "docProps/app.xml",
+      "compressed": 149,
+      "raw": 205
+    },
+    {
+      "name": "docProps/core.xml",
+      "compressed": 311,
+      "raw": 718
+    },
+    {
+      "name": "xl/theme/theme1.xml",
+      "compressed": 720,
+      "raw": 3075
+    },
+    {
+      "name": "xl/worksheets/sheet1.xml",
+      "compressed": 7523,
+      "raw": 99168
+    },
+    {
+      "name": "xl/worksheets/sheet2.xml",
+      "compressed": 5559,
+      "raw": 64394
+    },
+    {
+      "name": "xl/worksheets/sheet3.xml",
+      "compressed": 3675,
+      "raw": 52752
+    },
+    {
+      "name": "xl/worksheets/sheet4.xml",
+      "compressed": 2959,
+      "raw": 34573
+    },
+    {
+      "name": "xl/worksheets/sheet5.xml",
+      "compressed": 875,
+      "raw": 4951
+    },
+    {
+      "name": "xl/worksheets/sheet6.xml",
+      "compressed": 796,
+      "raw": 3564
+    },
+    {
+      "name": "xl/worksheets/sheet7.xml",
+      "compressed": 1904689,
+      "raw": 23655444
+    },
+    {
+      "name": "xl/styles.xml",
+      "compressed": 1338,
+      "raw": 18843
+    },
+    {
+      "name": "_rels/.rels",
+      "compressed": 192,
+      "raw": 531
+    },
+    {
+      "name": "xl/workbook.xml",
+      "compressed": 530,
+      "raw": 1703
+    },
+    {
+      "name": "xl/_rels/workbook.xml.rels",
+      "compressed": 209,
+      "raw": 1374
+    },
+    {
+      "name": "[Content_Types].xml",
+      "compressed": 306,
+      "raw": 1791
+    }
+  ],
+  "timing_scope": "original includes CSV read; other modes measure writer/compression/validation only, NOT comparable end-to-end pipelines"
+}

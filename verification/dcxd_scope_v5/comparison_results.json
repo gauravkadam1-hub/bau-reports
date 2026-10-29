@@ -1,0 +1,164 @@
+[
+  {
+    "scenario": "mixed_small",
+    "report": "roster",
+    "backend": "pandas (existing Roster backend)",
+    "bytes": {
+      "v4": 18761,
+      "v5": 18010
+    },
+    "rows": {
+      "v4": {
+        "Roster Base": 10,
+        "Attendance Base": 10,
+        "Master Base": 10
+      },
+      "v5": {
+        "Roster Base": 6,
+        "Attendance Base": 6,
+        "Master Base": 6
+      }
+    },
+    "summary_nonempty_cells_compared": 162,
+    "summary_value_differences": 0,
+    "seconds_single_run": {
+      "v4": 0.104,
+      "v5": 0.085
+    },
+    "size_reduction_percent": 4.0
+  },
+  {
+    "scenario": "mixed_small",
+    "report": "attendance",
+    "backend": "pandas (Attendance development fallback)",
+    "bytes": {
+      "v4": 76058,
+      "v5": 75349
+    },
+    "rows": {
+      "v4": {
+        "All User data": 10,
+        "Attendance Base": 10
+      },
+      "v5": {
+        "All User data": 6,
+        "Attendance Base": 6
+      }
+    },
+    "summary_nonempty_cells_compared": 142,
+    "summary_value_differences": 0,
+    "seconds_single_run": {
+      "v4": 0.142,
+      "v5": 0.141
+    },
+    "size_reduction_percent": 0.93
+  },
+  {
+    "scenario": "already_in_scope",
+    "report": "roster",
+    "backend": "pandas (existing Roster backend)",
+    "bytes": {
+      "v4": 18009,
+      "v5": 18009
+    },
+    "rows": {
+      "v4": {
+        "Roster Base": 6,
+        "Attendance Base": 6,
+        "Master Base": 6
+      },
+      "v5": {
+        "Roster Base": 6,
+        "Attendance Base": 6,
+        "Master Base": 6
+      }
+    },
+    "summary_nonempty_cells_compared": 162,
+    "summary_value_differences": 0,
+    "seconds_single_run": {
+      "v4": 0.088,
+      "v5": 0.077
+    },
+    "size_reduction_percent": 0.0
+  },
+  {
+    "scenario": "already_in_scope",
+    "report": "attendance",
+    "backend": "pandas (Attendance development fallback)",
+    "bytes": {
+      "v4": 75320,
+      "v5": 75349
+    },
+    "rows": {
+      "v4": {
+        "All User data": 6,
+        "Attendance Base": 6
+      },
+      "v5": {
+        "All User data": 6,
+        "Attendance Base": 6
+      }
+    },
+    "summary_nonempty_cells_compared": 142,
+    "summary_value_differences": 0,
+    "seconds_single_run": {
+      "v4": 0.131,
+      "v5": 0.135
+    },
+    "size_reduction_percent": -0.04
+  },
+  {
+    "scenario": "mixed_10000",
+    "report": "roster",
+    "backend": "pandas (existing Roster backend)",
+    "bytes": {
+      "v4": 1620640,
+      "v5": 179834
+    },
+    "rows": {
+      "v4": {
+        "Roster Base": 10010,
+        "Attendance Base": 10010,
+        "Master Base": 10010
+      },
+      "v5": {
+        "Roster Base": 1006,
+        "Attendance Base": 1006,
+        "Master Base": 1006
+      }
+    },
+    "summary_nonempty_cells_compared": 162,
+    "summary_value_differences": 0,
+    "seconds_single_run": {
+      "v4": 2.596,
+      "v5": 0.453
+    },
+    "size_reduction_percent": 88.9
+  },
+  {
+    "scenario": "mixed_10000",
+    "report": "attendance",
+    "backend": "pandas (Attendance development fallback)",
+    "bytes": {
+      "v4": 1692513,
+      "v5": 246988
+    },
+    "rows": {
+      "v4": {
+        "All User data": 10010,
+        "Attendance Base": 10010
+      },
+      "v5": {
+        "All User data": 1006,
+        "Attendance Base": 1006
+      }
+    },
+    "summary_nonempty_cells_compared": 142,
+    "summary_value_differences": 0,
+    "seconds_single_run": {
+      "v4": 1.106,
+      "v5": 0.516
+    },
+    "size_reduction_percent": 85.41
+  }
+]

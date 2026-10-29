@@ -74,6 +74,7 @@ with st.expander("Detected files", expanded=True):
         st.markdown("**Shared bases**")
         st.write(f"All Users: {len(detected.all_users)}")
         st.write(f"Attendance: {len(detected.attendance)}")
+        st.write(f"Floater (optional): {len(detected.floater)}")
     with c2:
         st.markdown("**Report-specific bases**")
         st.write(f"Roster: {len(detected.roster)}")

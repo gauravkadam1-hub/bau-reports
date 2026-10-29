@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "four_days",
+    "differences": 0,
+    "examples": [],
+    "compared_populated_cells": 518
+  },
+  {
+    "scenario": "one_day",
+    "differences": 0,
+    "examples": [],
+    "compared_populated_cells": 259
+  },
+  {
+    "scenario": "calendar_gap",
+    "differences": 0,
+    "examples": [],
+    "compared_populated_cells": 227
+  },
+  {
+    "scenario": "default_sites",
+    "differences": 0,
+    "examples": [],
+    "compared_populated_cells": 2058
+  }
+]

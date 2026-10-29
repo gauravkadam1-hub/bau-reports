@@ -1,0 +1,33 @@
+{
+  "before": {
+    "font_family_elements": 6,
+    "invalid_elements": 5,
+    "errors": [
+      {
+        "value": "2.0",
+        "error": "<string>:2:0:ERROR:SCHEMASV:SCHEMAV_CVC_DATATYPE_VALID_1_2_1: Element '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}family', attribute 'val': '2.0' is not a valid value of the atomic type 'xs:int'."
+      },
+      {
+        "value": "2.0",
+        "error": "<string>:2:0:ERROR:SCHEMASV:SCHEMAV_CVC_DATATYPE_VALID_1_2_1: Element '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}family', attribute 'val': '2.0' is not a valid value of the atomic type 'xs:int'."
+      },
+      {
+        "value": "2.0",
+        "error": "<string>:2:0:ERROR:SCHEMASV:SCHEMAV_CVC_DATATYPE_VALID_1_2_1: Element '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}family', attribute 'val': '2.0' is not a valid value of the atomic type 'xs:int'."
+      },
+      {
+        "value": "2.0",
+        "error": "<string>:2:0:ERROR:SCHEMASV:SCHEMAV_CVC_DATATYPE_VALID_1_2_1: Element '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}family', attribute 'val': '2.0' is not a valid value of the atomic type 'xs:int'."
+      },
+      {
+        "value": "2.0",
+        "error": "<string>:2:0:ERROR:SCHEMASV:SCHEMAV_CVC_DATATYPE_VALID_1_2_1: Element '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}family', attribute 'val': '2.0' is not a valid value of the atomic type 'xs:int'."
+      }
+    ]
+  },
+  "after": {
+    "font_family_elements": 7,
+    "invalid_elements": 0,
+    "errors": []
+  }
+}

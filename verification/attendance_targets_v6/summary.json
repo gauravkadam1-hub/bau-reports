@@ -1,0 +1,52 @@
+{
+  "release": "Attendance Target Row v6",
+  "parent": "BAU_DCXDScope_v5.zip",
+  "created_utc": "2026-10-24T17:54:52.686333+00:00",
+  "tests": {
+    "tests": 241,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 33,
+    "passed": 208
+  },
+  "new_tests": {
+    "passed": 42,
+    "skipped": 3,
+    "failed": 0
+  },
+  "parity": {
+    "workbook_pairs": 16,
+    "existing_populated_cells_compared": 39296,
+    "formula_and_literal_cells_compared": 39296,
+    "style_cells_compared": 42960,
+    "unexpected_differences": 0,
+    "intentional_empty_target_group_total_changes": 36
+  },
+  "local_formula_checks": {
+    "count": 2628,
+    "differences": 0,
+    "method": "Evaluation-only workbook retains generated summary SUM/IFERROR/=0 formulas. Source count/lookup formulas replaced with their before/after-verified cached values. Original reports not rewritten.",
+    "limitation": "Does not independently recalculate the unchanged whole-column COUNTIFS/INDEX/IFNA base lookups or constitute desktop Excel testing."
+  },
+  "rendered_sheets": 14,
+  "runtime_file_changed": "engines/attendance/engine.py",
+  "limits": [
+    "Real Polars backend unavailable; existing pandas fallback and common XlsxWriter writer exercised.",
+    "No desktop Excel or browser UI execution."
+  ],
+  "integrity": {
+    "original_archive": "BAU_DCXDScope_v5.zip",
+    "original_archive_sha256": "decd0237dd878d23e8ab568e31a6fb815888b814ca18039c99835b87f3b761c7",
+    "original_files_verified_unchanged": 123,
+    "reference_workbook_sha256": "4a620167fa4c4d684ba6ef42b5c710eae842e78841cd027da73c77ff5eeb795d",
+    "reference_matches_untouched_duplicate": true,
+    "runtime_files_changed": [
+      {
+        "path": "engines/attendance/engine.py",
+        "before_sha256": "c4f99ec753f20908d5907518540d1dc849bcc0943ba6616150ed66a1b3cab6b3",
+        "after_sha256": "ee14172c2da3c64edde1af05683aeb8ff7fbcef7ec7bfdef4ec4d8747598b011"
+      }
+    ],
+    "unmodified_existing_runtime_and_assets": "All other original engines, portal, app.py, requirements, masters and assets are byte-identical to v5."
+  }
+}

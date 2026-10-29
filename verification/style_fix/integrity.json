@@ -1,0 +1,14 @@
+{
+  "changed_existing_files_from_migration": [
+    "engines/onboarding/onboarding_layout.json",
+    "engines/onboarding/onboarding_writer.py"
+  ],
+  "new_files_from_migration": [
+    "tools/check_onboarding_workbook.py",
+    "tests/test_onboarding_styles.py",
+    "engines/onboarding/onboarding_styles.py"
+  ],
+  "other_report_engines_and_portal_unchanged_from_original": true,
+  "original_extraction_matches_original_zip": true,
+  "legacy_cells_compared": 3062
+}

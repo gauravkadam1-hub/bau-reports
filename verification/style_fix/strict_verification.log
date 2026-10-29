@@ -1,0 +1,6 @@
+Verification BLOCKED: required dependencies are missing or failed to import.
+  polars: No module named 'polars'
+  fastexcel: No module named 'fastexcel'
+Install the project requirements and pytest, then rerun:
+  python -m pip install -r requirements.txt
+  python -m pip install "pytest>=8,<10"
